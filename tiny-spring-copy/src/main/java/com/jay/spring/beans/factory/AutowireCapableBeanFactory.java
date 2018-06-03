@@ -9,10 +9,25 @@ import com.jay.spring.beans.BeanDefinition;
  */
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
-    public void doCreateBean(BeanDefinition beanDefinition) {
+    public Object doCreateBean(BeanDefinition beanDefinition) {
         if (beanDefinition == null) {
-            return;
+            return null;
         }
+        try {
+            Class beanClass = Class.forName(beanDefinition.getBeanClassName());
+            try {
+                Object bean = beanClass.newInstance();
+                return bean;
+
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
 
     }
 }
