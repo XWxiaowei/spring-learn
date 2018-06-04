@@ -29,7 +29,7 @@ public class BeanFactoryTest2 {
         beanFactory.registerBeanDefinition("helloWorldService", beanDefinition);
 
 // 3.获取bean
-        HelloWorldService helloWorldService = (HelloWorldService) beanFactory.getBean("helloWorldService");
+        HelloWorldServiceImpl helloWorldService = (HelloWorldServiceImpl) beanFactory.getBean("helloWorldService");
         helloWorldService.helloWorld();
     }
 }

@@ -6,4 +6,9 @@ package com.jay.spring.beans;
  * @author xiang.wei
  */
 public interface BeanDefinitionReader {
+    /**
+     * @param location
+     * @throws Exception
+     */
+    void loadBeanDefinitions(String location) throws Exception;
 }

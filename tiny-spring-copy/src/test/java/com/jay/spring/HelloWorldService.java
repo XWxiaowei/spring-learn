@@ -1,22 +1,9 @@
 package com.jay.spring;
 
 /**
- * Created by xiang.wei on 2018/6/4
- *
  * @author xiang.wei
+ * @create 2018/6/4 17:30
  */
-public class HelloWorldService {
-    private String text;
-
-    public void helloWorld() {
-        System.out.println("hello world!");
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
+public interface HelloWorldService {
+    void helloWorld();
 }
