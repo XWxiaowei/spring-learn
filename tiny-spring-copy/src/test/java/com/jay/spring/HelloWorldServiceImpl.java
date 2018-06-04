@@ -7,16 +7,18 @@ package com.jay.spring;
  */
 public class HelloWorldServiceImpl implements HelloWorldService {
     private String text;
+    private OutputService outputService;
+
 
     public void helloWorld() {
-        System.out.println("hello world!");
-    }
-
-    public String getText() {
-        return text;
+        outputService.output(text);
     }
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setOutputService(OutputService outputService) {
+        this.outputService = outputService;
     }
 }
