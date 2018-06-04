@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
-    public XmlBeanDefinitionReader(Map<String, BeanDefinition> registry, ResourceLoader resourceLoader) {
-        super(registry, resourceLoader);
+    public XmlBeanDefinitionReader(ResourceLoader resourceLoader) {
+        super(resourceLoader);
     }
 
     @Override
