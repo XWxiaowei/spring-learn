@@ -1,6 +1,6 @@
 package com.jay.spring.beans.xml;
 
-import com.jay.spring.BeanReference;
+import com.jay.spring.beans.BeanReference;
 import com.jay.spring.beans.AbstractBeanDefinitionReader;
 import com.jay.spring.beans.BeanDefinition;
 import com.jay.spring.beans.PropertyValue;
@@ -13,7 +13,6 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
-import java.util.Map;
 
 /**
  * @author xiang.wei
@@ -32,14 +31,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     }
 
     protected void doLoadBeanDefinitions(InputStream inputStream) throws Exception {
-        try {
+//        try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
             registerBeanDefinitions(document);
-        } finally {
+//        } finally {
             inputStream.close();
-        }
+//        }
 
 
     }
@@ -88,7 +87,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                                 + name + "' must specify a ref or value");
                     }
                     BeanReference beanReference = new BeanReference(ref);
-                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, beanDefinition));
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, beanReference));
                 }
             }
         }

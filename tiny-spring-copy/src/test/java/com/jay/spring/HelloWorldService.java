@@ -1,9 +1,23 @@
 package com.jay.spring;
 
 /**
- * @author xiang.wei
- * @create 2018/6/4 17:30
+ * @author yihua.huang@dianping.com
  */
-public interface HelloWorldService {
-    void helloWorld();
+public class HelloWorldService {
+
+    private String text;
+
+    private OutputService outputService;
+
+    public void helloWorld(){
+        outputService.output(text);
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setOutputService(OutputService outputService) {
+        this.outputService = outputService;
+    }
 }
