@@ -13,14 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class AbstractBeanFactory implements BeanFactory {
     private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
 
-    public Object getBean(String name) {
+    public Object getBean(String name) throws Exception {
         return beanDefinitionMap.get(name).getBean();
     }
 
-    public void registerBeanDefinition(String name, BeanDefinition beanDefinition) {
-        Object bean=doCreateBean(beanDefinition);
+    public void registerBeanDefinition(String name, BeanDefinition beanDefinition) throws Exception {
+        Object bean = doCreateBean(beanDefinition);
         beanDefinition.setBean(bean);
         beanDefinitionMap.put(name, beanDefinition);
     }
-    public abstract Object doCreateBean(BeanDefinition beanDefinition);
+
+    public abstract Object doCreateBean(BeanDefinition beanDefinition) throws Exception;
 }

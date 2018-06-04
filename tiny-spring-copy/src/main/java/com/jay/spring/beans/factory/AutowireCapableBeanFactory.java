@@ -1,6 +1,9 @@
 package com.jay.spring.beans.factory;
 
 import com.jay.spring.beans.BeanDefinition;
+import com.jay.spring.beans.PropertyValue;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by xiang.wei on 2018/6/4
@@ -8,26 +11,27 @@ import com.jay.spring.beans.BeanDefinition;
  * @author xiang.wei
  */
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
+    @Override
+    public Object doCreateBean(BeanDefinition beanDefinition) throws Exception {
+        Object bean = createBeanInstance(beanDefinition);
+        applyPropertyValues(bean, beanDefinition);
+        return bean;
+    }
 
-    public Object doCreateBean(BeanDefinition beanDefinition) {
+    protected Object createBeanInstance(BeanDefinition beanDefinition) throws Exception {
         if (beanDefinition == null) {
             return null;
         }
-        try {
-            Class beanClass = Class.forName(beanDefinition.getBeanClassName());
-            try {
-                Object bean = beanClass.newInstance();
-                return bean;
+        Class beanClass = Class.forName(beanDefinition.getBeanClassName());
+        Object bean = beanClass.newInstance();
+        return bean;
+    }
 
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    protected void applyPropertyValues(Object bean, BeanDefinition mbd) throws Exception {
+        for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValueList()) {
+            Field declaredField = bean.getClass().getDeclaredField(propertyValue.getName());
+            declaredField.setAccessible(true);
+            declaredField.set(bean, propertyValue.getValue());
         }
-        return null;
-
     }
 }
