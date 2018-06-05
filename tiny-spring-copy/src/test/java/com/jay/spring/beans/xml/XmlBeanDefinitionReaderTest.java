@@ -19,7 +19,7 @@ public class XmlBeanDefinitionReaderTest {
         XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
         xmlBeanDefinitionReader.loadBeanDefinitions("tinyioc.xml");
         Map<String, BeanDefinition> registry = xmlBeanDefinitionReader.getRegistry();
-        Assert.assertTrue(registry.size() > 0);
+        Assert.assertTrue(registry.size() >0);
     }
 
 }

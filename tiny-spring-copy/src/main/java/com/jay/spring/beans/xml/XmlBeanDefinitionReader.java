@@ -31,14 +31,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     }
 
     protected void doLoadBeanDefinitions(InputStream inputStream) throws Exception {
-//        try {
+        try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(inputStream);
             registerBeanDefinitions(document);
-//        } finally {
+        } finally {
             inputStream.close();
-//        }
+        }
 
 
     }
