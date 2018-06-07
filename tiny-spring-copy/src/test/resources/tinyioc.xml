@@ -16,5 +16,12 @@
         <property name="text" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
+    <bean id="autoProxyCreator" class="com.jay.spring.aop.jdk.AspectJAwareAdvisorAutoProxyCreator"/>
+
+    <bean id="timeInterceptor" class="com.jay.spring.aop.TimerInterceptor"/>
+    <bean id="aspectjAspect" class="com.jay.spring.aop.jdk.AspectJExpressionPointcutAdvisor">
+        <property name="advice" ref="timeInterceptor"/>
+        <property name="expression" value="execution(* com.jay.spring.aop.*.*(..))"/>
+    </bean>
 
 </beans>
