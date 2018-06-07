@@ -12,7 +12,7 @@
         <property name="helloWorldService" ref="helloWorldService"></property>
     </bean>
 
-    <bean id="helloWorldService" class="com.jay.spring.HelloWorldService">
+    <bean id="helloWorldService" class="com.jay.spring.HelloWorldServiceImpl">
         <property name="text" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
