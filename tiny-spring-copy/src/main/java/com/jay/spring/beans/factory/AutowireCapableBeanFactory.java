@@ -12,15 +12,26 @@ import java.lang.reflect.Field;
  * @author xiang.wei
  */
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
+    /**
+     * 生成bean的实例，并设置属性值
+     * @param beanDefinition
+     * @return
+     * @throws Exception
+     */
     @Override
     public Object doCreateBean(BeanDefinition beanDefinition) throws Exception {
         Object bean = createBeanInstance(beanDefinition);
         beanDefinition.setBean(bean);
-
         applyPropertyValues(bean, beanDefinition);
         return bean;
     }
 
+    /**
+     * 生成Bean的实例
+     * @param beanDefinition
+     * @return
+     * @throws Exception
+     */
     protected Object createBeanInstance(BeanDefinition beanDefinition) throws Exception {
         if (beanDefinition == null) {
             return null;
