@@ -4,10 +4,10 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 /**
  * Created by xiang.wei on 2018/6/7
- *
+ *代理相关的元数据
  * @author xiang.wei
  */
-public class AdviceSupport {
+public class AdvisedSupport {
     /**
      * 目标对象
      */
@@ -16,6 +16,7 @@ public class AdviceSupport {
      *对应AOP中的Advice
      */
     private MethodInterceptor methodInterceptor;
+    private MethodMatcher methodMatcher;
 
     public TargetSource getTargetSource() {
         return targetSource;
@@ -31,5 +32,13 @@ public class AdviceSupport {
 
     public void setMethodInterceptor(MethodInterceptor methodInterceptor) {
         this.methodInterceptor = methodInterceptor;
+    }
+
+    public MethodMatcher getMethodMatcher() {
+        return methodMatcher;
+    }
+
+    public void setMethodMatcher(MethodMatcher methodMatcher) {
+        this.methodMatcher = methodMatcher;
     }
 }

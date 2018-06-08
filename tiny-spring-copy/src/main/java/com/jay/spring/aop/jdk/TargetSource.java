@@ -10,20 +10,20 @@ public class TargetSource {
     /**
      * 目标对象的Class对象
      */
-    private Class targetClass;
+    private Class<?>[] targetClass;
 
     private Object target;
 
-    public TargetSource(Class targetClass, Object target) {
+    public TargetSource(Object target,Class<?>... targetClass) {
         this.targetClass = targetClass;
         this.target = target;
     }
 
-    public Class getTargetClass() {
+    public Class<?>[] getTargetClass() {
         return targetClass;
     }
 
-    public void setTargetClass(Class targetClass) {
+    public void setTargetClass(Class<?>[] targetClass) {
         this.targetClass = targetClass;
     }
 

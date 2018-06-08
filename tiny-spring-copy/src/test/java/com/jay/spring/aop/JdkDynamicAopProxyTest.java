@@ -1,7 +1,7 @@
 package com.jay.spring.aop;
 
 import com.jay.spring.HelloWorldService;
-import com.jay.spring.aop.jdk.AdviceSupport;
+import com.jay.spring.aop.jdk.AdvisedSupport;
 import com.jay.spring.aop.jdk.JdkDynamicAopProxy;
 import com.jay.spring.aop.jdk.TargetSource;
 import com.jay.spring.context.ClassPathXmlApplicationContext;
@@ -21,8 +21,8 @@ public class JdkDynamicAopProxyTest {
         helloWorldService.helloWorld();
 //       helloWorldService with AOP
 //        1.设置被代理对象(Joinpoint)
-        AdviceSupport adviceSupport = new AdviceSupport();
-        TargetSource targetSource = new TargetSource(HelloWorldService.class, helloWorldService);
+        AdvisedSupport adviceSupport = new AdvisedSupport();
+        TargetSource targetSource = new TargetSource(helloWorldService,HelloWorldService.class);
         adviceSupport.setTargetSource(targetSource);
 //         2.设置拦截器(Advice)
         TimerInterceptor timerInterceptor = new TimerInterceptor();
