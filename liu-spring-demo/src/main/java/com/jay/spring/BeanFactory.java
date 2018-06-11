@@ -8,7 +8,17 @@ import com.jay.spring.bean.BeanDefinition;
  */
 public interface BeanFactory {
 
-    BeanDefinition getDefinition(String name);
+    /**
+     * @param id
+     * @return
+     */
+    BeanDefinition getDefinition(String id);
 
-    Object getBean(String name);
+    /**
+     * 获取service的实例
+     * @param id
+     * @return
+     * @throws ClassNotFoundException
+     */
+    Object getBean(String id);
 }
