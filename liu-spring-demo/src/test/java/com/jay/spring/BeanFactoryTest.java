@@ -21,8 +21,8 @@ public class BeanFactoryTest {
     XmlBeanDefinitionReader reader = null;
     @Before
     public void setUp() {
-        DefaultBeanFactory factory = new DefaultBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+        factory = new DefaultBeanFactory();
+        reader = new XmlBeanDefinitionReader(factory);
 
     }
     @Test
