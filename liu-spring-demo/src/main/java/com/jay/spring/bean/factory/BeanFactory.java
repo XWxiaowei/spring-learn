@@ -1,6 +1,4 @@
-package com.jay.spring;
-
-import com.jay.spring.bean.BeanDefinition;
+package com.jay.spring.bean.factory;
 
 /**
  * @author xiang.wei
@@ -9,16 +7,12 @@ import com.jay.spring.bean.BeanDefinition;
 public interface BeanFactory {
 
     /**
-     * @param id
-     * @return
-     */
-    BeanDefinition getDefinition(String id);
-
-    /**
      * 获取service的实例
      * @param id
      * @return
      * @throws ClassNotFoundException
      */
     Object getBean(String id);
+
+
 }

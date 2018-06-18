@@ -1,4 +1,4 @@
-package com.jay.spring.Exception;
+package com.jay.spring.bean;
 
 /**
  * @author xiang.wei

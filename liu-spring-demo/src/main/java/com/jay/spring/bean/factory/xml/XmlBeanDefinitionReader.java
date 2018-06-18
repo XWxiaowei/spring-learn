@@ -1,8 +1,8 @@
-package com.jay.spring;
+package com.jay.spring.bean.factory.xml;
 
 import com.jay.spring.Exception.BeanDefinitionException;
-import com.jay.spring.Exception.BeanException;
 import com.jay.spring.bean.BeanDefinition;
+import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.util.ClassUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -14,37 +14,21 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * Created by xiang.wei on 2018/6/18
+ *
  * @author xiang.wei
- * @create 2018/6/11 14:40
  */
-public class DefaultBeanFactory implements BeanFactory {
+public class XmlBeanDefinitionReader {
     private static String ID_ATTRIBUTE = "id";
     private static String CLASS_ATTRIBUTE = "class";
-    private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
+    private BeanDefinitionRegistry registry;
 
-    public DefaultBeanFactory(String configFile) {
-        loadBeanDefinition(configFile);
+    public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
+        this.registry = registry;
     }
 
-    @Override
-    public BeanDefinition getDefinition(String id) {
-        return beanDefinitionMap.get(id);
-    }
 
-    @Override
-    public Object getBean(String id) {
-        BeanDefinition bd = getDefinition(id);
-        if (bd == null) {
-            throw  new BeanException("BeanDefinition is not exist");
-        }
-        try {
-            return Class.forName(bd.getBeanClassName()).newInstance();
-        } catch (Exception e) {
-            throw new BeanException("bean create exception");
-        }
-    }
-
-    private void loadBeanDefinition(String configFile) {
+    public void loadBeanDefinition(String configFile) {
         InputStream inputStream = null;
         try {
             try {
@@ -63,7 +47,7 @@ public class DefaultBeanFactory implements BeanFactory {
                     String id = element.attributeValue(ID_ATTRIBUTE);
                     String className = element.attributeValue(CLASS_ATTRIBUTE);
                     BeanDefinition beanDefinition = new BeanDefinition(id, className);
-                    beanDefinitionMap.put(id, beanDefinition);
+                    registry.registerBeanDefinition(id, beanDefinition);
                 }
             } finally {
                 if (inputStream != null) {
@@ -74,4 +58,5 @@ public class DefaultBeanFactory implements BeanFactory {
             throw new BeanDefinitionException("读取xml出错");
         }
     }
+
 }

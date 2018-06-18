@@ -1,5 +1,7 @@
 package com.jay.spring.Exception;
 
+import com.jay.spring.bean.BeanException;
+
 /**
  * 读取xml出错时抛出的异常
  * @author xiang.wei
