@@ -3,6 +3,7 @@ package com.jay.spring.bean.factory.xml;
 import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
+import com.jay.spring.core.io.Resource;
 import com.jay.spring.util.ClassUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -28,13 +29,12 @@ public class XmlBeanDefinitionReader {
     }
 
 
-    public void loadBeanDefinition(String configFile) {
+    public void loadBeanDefinition(Resource resource) {
         InputStream inputStream = null;
         try {
             try {
-                ClassLoader cl = ClassUtil.getDefaultClassLoader();
                 //获取文件输入流
-                inputStream = cl.getResourceAsStream(configFile);
+                inputStream = resource.getInputStream();
 
                 SAXReader saxReader = new SAXReader();
                 Document document = saxReader.read(inputStream);

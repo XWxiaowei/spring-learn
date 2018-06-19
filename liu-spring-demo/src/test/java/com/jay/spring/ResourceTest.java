@@ -5,7 +5,6 @@ import com.jay.spring.core.io.FileSystemResource;
 import com.jay.spring.core.io.Resource;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -31,12 +30,13 @@ public class ResourceTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void testFileSystemResource() throws IOException {
-        Resource resource = new FileSystemResource("");
+        Resource resource = new FileSystemResource("/Volumes/Develop/spring-source/spring-learn/liu-spring-demo/src/test/resources/petstore-v1.xml");
         InputStream is = null;
         try {
-            is=resource.getInputStream();
+            is = resource.getInputStream();
         } finally {
             if (is != null) {
                 is.close();

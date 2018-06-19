@@ -2,6 +2,7 @@ package com.jay.spring;
 
 import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.context.support.ClassPathXmlApplicationContext;
+import com.jay.spring.context.support.FileSystemXmlApplicationContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,6 +16,12 @@ public class ApplicationContextTest {
     public void testGetBeans() {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("petstore-v1.xml");
         PetStoreService petStoreService = (PetStoreService) applicationContext.getBean("petStoreService");
+        Assert.assertNotNull(petStoreService);
+    }
+    @Test
+    public void testGetBeanFileSystemContext() {
+        ApplicationContext ctx = new FileSystemXmlApplicationContext("");
+        PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStoreService");
         Assert.assertNotNull(petStoreService);
     }
 }
