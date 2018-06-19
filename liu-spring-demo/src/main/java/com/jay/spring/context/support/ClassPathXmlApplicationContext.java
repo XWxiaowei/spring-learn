@@ -1,8 +1,5 @@
 package com.jay.spring.context.support;
 
-import com.jay.spring.bean.factory.DefaultBeanFactory;
-import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
-import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.core.io.ClassPathResource;
 import com.jay.spring.core.io.Resource;
 
@@ -11,19 +8,16 @@ import com.jay.spring.core.io.Resource;
  *
  * @author xiang.wei
  */
-public class ClassPathXmlApplicationContext  implements ApplicationContext{
-    private DefaultBeanFactory defaultBeanFactory = null;
+public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
+
+
 
     public ClassPathXmlApplicationContext(String configFile) {
-        defaultBeanFactory = new DefaultBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(defaultBeanFactory);
-        Resource resource = new ClassPathResource(configFile);
-        reader.loadBeanDefinition(resource);
+        super(configFile);
     }
 
     @Override
-    public Object getBean(String beanId) {
-        return defaultBeanFactory.getBean(beanId);
+    public Resource getResourceByPath(String configFile) {
+        return new ClassPathResource(configFile);
     }
-
 }
