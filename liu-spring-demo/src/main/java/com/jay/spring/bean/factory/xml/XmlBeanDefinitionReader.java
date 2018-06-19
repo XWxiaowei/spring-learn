@@ -3,16 +3,14 @@ package com.jay.spring.bean.factory.xml;
 import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
+import com.jay.spring.bean.factory.support.GenericBeanDefinition;
 import com.jay.spring.core.io.Resource;
-import com.jay.spring.util.ClassUtil;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by xiang.wei on 2018/6/18
@@ -22,6 +20,7 @@ import java.util.Map;
 public class XmlBeanDefinitionReader {
     private static String ID_ATTRIBUTE = "id";
     private static String CLASS_ATTRIBUTE = "class";
+    private static String SCOPE_ATTRIBUTE = "scope";
     private BeanDefinitionRegistry registry;
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
@@ -46,7 +45,10 @@ public class XmlBeanDefinitionReader {
                     Element element = iterator.next();
                     String id = element.attributeValue(ID_ATTRIBUTE);
                     String className = element.attributeValue(CLASS_ATTRIBUTE);
-                    BeanDefinition beanDefinition = new BeanDefinition(id, className);
+                    BeanDefinition beanDefinition = new GenericBeanDefinition(id, className);
+                    if (element.attribute(SCOPE_ATTRIBUTE) != null) {
+                        beanDefinition.setScope(element.attributeValue(SCOPE_ATTRIBUTE));
+                    }
                     registry.registerBeanDefinition(id, beanDefinition);
                 }
             } finally {

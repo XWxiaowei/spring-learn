@@ -13,7 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.
@@ -37,9 +39,17 @@ public class BeanFactoryTest {
         BeanDefinition beanDefinition = factory.getDefinition("petStoreService");
 
         assertEquals("com.jay.spring.PetStoreService", beanDefinition.getBeanClassName());
+        assertTrue(beanDefinition.isSingleton());
+        assertFalse(beanDefinition.isPrototype());
+
+        assertEquals(BeanDefinition.SCOPE_DEFAULT, beanDefinition.getScope());
 
         PetStoreService petStoreService = null;
-        petStoreService = (PetStoreService) factory.getBean(beanDefinition.getId());
+        petStoreService = (PetStoreService) factory.getBean("petStoreService");
+
+        PetStoreService petStoreService1 = (PetStoreService) factory.getBean("petStoreService");
+        assertTrue(petStoreService.equals(petStoreService1));
+
         assertNotNull(petStoreService);
 
     }

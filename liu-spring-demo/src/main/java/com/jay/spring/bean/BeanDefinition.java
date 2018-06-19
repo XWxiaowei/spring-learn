@@ -4,30 +4,18 @@ package com.jay.spring.bean;
  * @author xiang.wei
  * @create 2018/6/11 14:46
  */
-public class BeanDefinition {
-    private String id;
-    private String beanClassName;
+public interface BeanDefinition {
+    public static final String SCOPE_SINGLETON = "singleton";
+    public static final String SCOPE_PROTOTYPE = "prototype";
+    public static final String SCOPE_DEFAULT = "";
 
-    public BeanDefinition(String id, String beanClassName) {
-        this.id = id;
-        this.beanClassName = beanClassName;
-    }
+    boolean isSingleton();
 
-    public String getId() {
-        return id;
-    }
+    boolean isPrototype();
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    String getScope();
 
-    public String getBeanClassName() {
-        return beanClassName;
-    }
+    void setScope(String scope);
 
-    public void setBeanClassName(String beanClassName) {
-        this.beanClassName = beanClassName;
-    }
-
-
+    String getBeanClassName();
 }
