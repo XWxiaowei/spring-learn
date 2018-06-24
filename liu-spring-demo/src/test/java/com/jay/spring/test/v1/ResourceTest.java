@@ -1,4 +1,4 @@
-package com.jay.spring;
+package com.jay.spring.test.v1;
 
 import com.jay.spring.core.io.ClassPathResource;
 import com.jay.spring.core.io.FileSystemResource;

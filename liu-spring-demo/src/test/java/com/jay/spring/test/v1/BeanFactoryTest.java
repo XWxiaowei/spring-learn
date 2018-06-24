@@ -1,9 +1,9 @@
-package com.jay.spring;
+package com.jay.spring.test.v1;
 
 import com.jay.spring.Exception.BeanDefinitionException;
+import com.jay.spring.service.v1.PetStoreService;
 import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.BeanDefinition;
-import com.jay.spring.bean.factory.BeanFactory;
 import com.jay.spring.bean.factory.DefaultBeanFactory;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.core.io.ClassPathResource;
@@ -38,7 +38,7 @@ public class BeanFactoryTest {
     public void testGetBean() {
         BeanDefinition beanDefinition = factory.getDefinition("petStoreService");
 
-        assertEquals("com.jay.spring.PetStoreService", beanDefinition.getBeanClassName());
+        assertEquals("com.jay.spring.service.v1.PetStoreService", beanDefinition.getBeanClassName());
         assertTrue(beanDefinition.isSingleton());
         assertFalse(beanDefinition.isPrototype());
 

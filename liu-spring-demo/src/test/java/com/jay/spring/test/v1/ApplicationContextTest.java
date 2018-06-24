@@ -1,9 +1,9 @@
-package com.jay.spring;
+package com.jay.spring.test.v1;
 
+import com.jay.spring.service.v1.PetStoreService;
 import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.context.support.ClassPathXmlApplicationContext;
 import com.jay.spring.context.support.FileSystemXmlApplicationContext;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.junit.Assert;
 import org.junit.Test;
 

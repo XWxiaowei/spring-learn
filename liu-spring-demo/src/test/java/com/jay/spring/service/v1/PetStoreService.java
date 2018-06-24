@@ -1,4 +1,4 @@
-package com.jay.spring;
+package com.jay.spring.service.v1;
 
 /**
  * @author xiang.wei
