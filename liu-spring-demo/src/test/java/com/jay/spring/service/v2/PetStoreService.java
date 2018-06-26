@@ -11,7 +11,7 @@ public class PetStoreService {
     private AccountDao accountDao;
     private ItemDao itemDao;
     private String owner;
-    private String version;
+    private int version;
 
 
     public void setAccountDao(AccountDao accountDao) {
@@ -26,7 +26,23 @@ public class PetStoreService {
         this.owner = owner;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
+    }
+
+    public AccountDao getAccountDao() {
+        return accountDao;
+    }
+
+    public ItemDao getItemDao() {
+        return itemDao;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public int getVersion() {
+        return version;
     }
 }

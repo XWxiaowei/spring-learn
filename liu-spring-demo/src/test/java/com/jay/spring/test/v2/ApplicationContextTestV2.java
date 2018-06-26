@@ -2,8 +2,7 @@ package com.jay.spring.test.v2;
 
 import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.context.support.ClassPathXmlApplicationContext;
-import com.jay.spring.context.support.FileSystemXmlApplicationContext;
-import com.jay.spring.service.v1.PetStoreService;
+import com.jay.spring.service.v2.PetStoreService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +16,8 @@ public class ApplicationContextTestV2 {
     public void testGetBeans() {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("petstore-v1.xml");
         PetStoreService petStoreService = (PetStoreService) applicationContext.getBean("petStoreService");
-        Assert.assertNotNull(petStoreService);
+        Assert.assertNotNull(petStoreService.getAccountDao());
+        Assert.assertNotNull(petStoreService.getItemDao());
     }
 
 }
