@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <beans xmlns="http://www.springframework.org/schema/beans"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-           xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-           xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-        <bean id="petStoreService"
-              class="com.jay.spring.service.v2.PetStoreService">
-            <property name="accountDao" ref="accountDao"/>
-            <property name="itemDao" ref="itemDao"/>
+    <bean id="petStoreService"
+          class="com.jay.spring.service.v2.PetStoreService">
+        <property name="accountDao" ref="accountDao"/>
+        <property name="itemDao" ref="itemDao"/>
+        <property name="owner" value="xiangwei"/>
+        <property name="version" value="2"/>
+    </bean>
+    <bean id="accountDao" class="com.jay.spring.dao.v2.AccountDao"></bean>
+    <bean id="itemDao" class="com.jay.spring.dao.v2.ItemDao"/>
 
-        </bean>
-        <bean id="accountDao" class="com.jay.spring.dao.v2.AccountDao"></bean>
-        <bean id="itemDao" class="com.jay.spring.dao.v2.ItemDao"/>
-
-   </beans>
+</beans>

@@ -10,20 +10,23 @@ import com.jay.spring.dao.v2.ItemDao;
 public class PetStoreService {
     private AccountDao accountDao;
     private ItemDao itemDao;
+    private String owner;
+    private String version;
 
-    public AccountDao getAccountDao() {
-        return accountDao;
-    }
 
     public void setAccountDao(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
-    public ItemDao getItemDao() {
-        return itemDao;
-    }
-
     public void setItemDao(ItemDao itemDao) {
         this.itemDao = itemDao;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

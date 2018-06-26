@@ -12,4 +12,7 @@ public class RuntimeBeanReference {
         this.beanName = beanName;
     }
 
+    public String getBeanName() {
+        return beanName;
+    }
 }

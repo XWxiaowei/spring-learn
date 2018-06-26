@@ -19,12 +19,5 @@ public class ApplicationContextTestV2 {
         PetStoreService petStoreService = (PetStoreService) applicationContext.getBean("petStoreService");
         Assert.assertNotNull(petStoreService);
     }
-    @Test
-    public void testGetBeanFileSystemContext() {
-//        TODO  1.全路径写死了
 
-        ApplicationContext ctx = new FileSystemXmlApplicationContext("/Volumes/Develop/spring-source/spring-learn/liu-spring-demo/src/test/resources/petstore-v1.xml");
-        PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStoreService");
-        Assert.assertNotNull(petStoreService);
-    }
 }
