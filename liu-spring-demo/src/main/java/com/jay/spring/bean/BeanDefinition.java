@@ -1,5 +1,7 @@
 package com.jay.spring.bean;
 
+import java.util.List;
+
 /**
  * @author xiang.wei
  * @create 2018/6/11 14:46
@@ -18,4 +20,6 @@ public interface BeanDefinition {
     void setScope(String scope);
 
     String getBeanClassName();
+
+    public List<PropertyValue> getPropertyValues();
 }

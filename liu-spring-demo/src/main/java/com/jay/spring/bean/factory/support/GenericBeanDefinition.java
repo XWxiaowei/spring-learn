@@ -1,6 +1,10 @@
 package com.jay.spring.bean.factory.support;
 
 import com.jay.spring.bean.BeanDefinition;
+import com.jay.spring.bean.PropertyValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by xiang.wei on 2018/6/20
@@ -13,6 +17,8 @@ public class GenericBeanDefinition implements BeanDefinition{
     private boolean singleton = true;
     private boolean prototype = false;
     private String scope = SCOPE_DEFAULT;
+
+    private List<PropertyValue> propertyValueList = new ArrayList<PropertyValue>();
     public GenericBeanDefinition(String id, String beanClassName) {
 
         this.id = id;
@@ -21,6 +27,11 @@ public class GenericBeanDefinition implements BeanDefinition{
     public String getBeanClassName() {
 
         return this.beanClassName;
+    }
+
+    @Override
+    public List<PropertyValue> getPropertyValues() {
+        return this.propertyValueList;
     }
 
     public boolean isSingleton() {
