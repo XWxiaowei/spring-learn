@@ -9,10 +9,9 @@ import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.bean.factory.support.BeanDefinitionValueResolve;
 import com.jay.spring.bean.factory.support.DefaultSingletonBeanRegistry;
-import com.jay.spring.util.ClassUtil;
+import com.jay.spring.util.ClassUtils;
 
 import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.HashMap;
@@ -119,6 +118,6 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 
     @Override
     public ClassLoader getBeanClassLoader() {
-        return this.classLoader != null ? this.classLoader : ClassUtil.getDefaultClassLoader();
+        return this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader();
     }
 }

@@ -1,6 +1,6 @@
 package com.jay.spring.core.io;
 
-import com.jay.spring.util.ClassUtil;
+import com.jay.spring.util.ClassUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class ClassPathResource implements Resource {
 
     public ClassPathResource(String path, ClassLoader classLoader) {
         this.path = path;
-        this.classLoader = classLoader != null ? classLoader : ClassUtil.getDefaultClassLoader();
+        this.classLoader = classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader();
     }
 
     @Override

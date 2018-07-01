@@ -4,7 +4,7 @@ import com.jay.spring.bean.factory.DefaultBeanFactory;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.core.io.Resource;
-import com.jay.spring.util.ClassUtil;
+import com.jay.spring.util.ClassUtils;
 
 /**
  * Created by xiang.wei on 2018/6/19
@@ -40,6 +40,6 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 
     @Override
     public ClassLoader getBeanClassLoader() {
-        return this.classLoader != null ? this.classLoader : ClassUtil.getDefaultClassLoader();
+        return this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader();
     }
 }
