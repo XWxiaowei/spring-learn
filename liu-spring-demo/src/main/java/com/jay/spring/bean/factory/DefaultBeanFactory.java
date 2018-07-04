@@ -1,6 +1,7 @@
 package com.jay.spring.bean.factory;
 
 import com.jay.spring.Exception.BeanCreationException;
+import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.PropertyValue;
@@ -10,6 +11,7 @@ import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.bean.factory.support.BeanDefinitionValueResolve;
 import com.jay.spring.bean.factory.support.DefaultSingletonBeanRegistry;
 import com.jay.spring.util.ClassUtils;
+import org.apache.commons.beanutils.BeanUtils;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -52,15 +54,11 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     public Object createBean(BeanDefinition bd) {
-//        try {
-//            return Class.forName(bd.getBeanClassName()).newInstance();
-//        } catch (Exception e) {
-//            throw new BeanException("bean create exception");
-//        }
 //        创建实例
         Object bean = instantiateBean(bd);
         //设置属性
-        populateBean(bd, bean);
+//        populateBean(bd, bean);
+        populateBeanUseCommonBeanUtils(bd,bean);
         return bean;
     }
 
@@ -119,5 +117,27 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     @Override
     public ClassLoader getBeanClassLoader() {
         return this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader();
+    }
+
+    private void populateBeanUseCommonBeanUtils(BeanDefinition bd, Object bean) {
+        List<PropertyValue> pvs = bd.getPropertyValues();
+        if (pvs == null || pvs.isEmpty()) {
+            return;
+        }
+        BeanDefinitionValueResolve valueResolve = new BeanDefinitionValueResolve(this);
+        try {
+            for (PropertyValue pv : pvs) {
+                String propertyName = pv.getName();
+                Object originalValue = pv.getValue();
+
+                Object resolve = valueResolve.resolveValueIfNecessary(originalValue);
+                BeanUtils.copyProperty(bean, propertyName, resolve);
+
+            }
+        } catch (Exception e) {
+            throw new BeanDefinitionException("Populate bean property failed for["+bd.getBeanClassName()+"");
+        }
+
+
     }
 }
