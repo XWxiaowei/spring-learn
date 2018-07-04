@@ -16,7 +16,7 @@ import org.junit.Test;
  *
  * @author xiang.wei
  */
-public class BeanDefinitionValueResolveTest {
+public class BeanDefinitionValueResolverTest {
     DefaultBeanFactory factory = null;
     XmlBeanDefinitionReader reader = null;
     BeanDefinitionValueResolve resolve = null;

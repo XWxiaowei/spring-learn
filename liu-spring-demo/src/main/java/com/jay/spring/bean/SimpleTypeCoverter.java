@@ -3,7 +3,6 @@ package com.jay.spring.bean;
 import com.jay.spring.bean.propertyeditors.CustomBooleanEditor;
 import com.jay.spring.bean.propertyeditors.CustomNumberEditor;
 import com.jay.spring.util.ClassUtils;
-import com.sun.corba.se.impl.io.TypeMismatchException;
 
 import java.beans.PropertyEditor;
 import java.util.HashMap;
@@ -27,7 +26,11 @@ public class SimpleTypeCoverter implements TypeConverter {
         } else {
             if (value instanceof String) {
                 PropertyEditor defaultEditor = findDefaultEditor(requiredType);
-                defaultEditor.setAsText((String) value);
+                try {
+                    defaultEditor.setAsText((String) value);
+                } catch (IllegalArgumentException e) {
+                    throw new TypeMismatchException(value, requiredType);
+                }
                 return (T) defaultEditor.getValue();
             } else {
                 throw new RuntimeException("Todo : can't convert value for "+value +" class:"+requiredType);

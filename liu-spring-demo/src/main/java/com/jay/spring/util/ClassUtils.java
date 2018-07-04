@@ -50,7 +50,7 @@ public class ClassUtils {
 
     public static boolean isAssignableValue(Class<?> type, Object value) {
         Assert.notNull(type, "Type must not be null");
-        return (value != null ? isAssignableValue(type, value.getClass()) : !type.isPrimitive());
+        return (value != null ? isAssignable(type, value.getClass()) : !type.isPrimitive());
 
     }
 

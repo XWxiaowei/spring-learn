@@ -14,7 +14,7 @@ import org.junit.Test;
 public class ApplicationContextTestV2 {
     @Test
     public void testGetBeans() {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("petstore-v1.xml");
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("petstore-v2.xml");
         PetStoreService petStoreService = (PetStoreService) applicationContext.getBean("petStoreService");
         Assert.assertNotNull(petStoreService.getAccountDao());
         Assert.assertNotNull(petStoreService.getItemDao());
