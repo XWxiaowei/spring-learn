@@ -1,7 +1,7 @@
 package com.jay.spring.service.v3;
 
-import com.jay.spring.dao.v2.AccountDao;
-import com.jay.spring.dao.v2.ItemDao;
+import com.jay.spring.dao.v3.AccountDao;
+import com.jay.spring.dao.v3.ItemDao;
 
 /**
  * @author xiang.wei
