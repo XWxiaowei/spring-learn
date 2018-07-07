@@ -2,6 +2,7 @@ package com.jay.spring.bean.factory.xml;
 
 import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
+import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
@@ -38,6 +39,11 @@ public class XmlBeanDefinitionReader {
 
     public static final String NAME_ATTRIBUTE = "name";
 
+    public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
+
+    public static final String TYPE_ATTRIBUTE = "type";
+
+
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         this.registry = registry;
@@ -65,6 +71,7 @@ public class XmlBeanDefinitionReader {
                     if (element.attribute(SCOPE_ATTRIBUTE) != null) {
                         beanDefinition.setScope(element.attributeValue(SCOPE_ATTRIBUTE));
                     }
+                    parseConstructorArgElements(element, beanDefinition);
                     parsePropertyElement(element, beanDefinition);
                     registry.registerBeanDefinition(id, beanDefinition);
                 }
@@ -115,4 +122,30 @@ public class XmlBeanDefinitionReader {
             throw new RuntimeException(elementName + " must specify a ref or value");
         }
     }
+
+    public void parseConstructorArgElements(Element beanEle, BeanDefinition beanDefinition) {
+        Iterator iter = beanEle.elementIterator(CONSTRUCTOR_ARG_ELEMENT);
+        while (iter.hasNext()) {
+            Element ele = (Element) iter.next();
+            parseConstructorArgElement(ele, beanDefinition);
+        }
+    }
+
+    public void parseConstructorArgElement(Element ele, BeanDefinition beanDefinition) {
+        String typeAttr = ele.attributeValue(TYPE_ATTRIBUTE);
+        String nameAttr = ele.attributeValue(NAME_ATTRIBUTE);
+
+        Object value = parsePropertyValue(ele, beanDefinition, null);
+        ConstructorArgument.ValueHolder valueHolder = new ConstructorArgument.ValueHolder(value);
+
+        if (StringUtils.hasLength(typeAttr)) {
+            valueHolder.setType(typeAttr);
+        }
+        if (StringUtils.hasLength(nameAttr)) {
+            valueHolder.setName(nameAttr);
+        }
+        beanDefinition.getConstructorArgument().addArgumentValue(valueHolder);
+
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.jay.spring.bean.factory.support;
 
 import com.jay.spring.bean.BeanDefinition;
+import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.PropertyValue;
 
 import java.util.ArrayList;
@@ -19,19 +20,26 @@ public class GenericBeanDefinition implements BeanDefinition{
     private String scope = SCOPE_DEFAULT;
 
     private List<PropertyValue> propertyValueList = new ArrayList<PropertyValue>();
+
+    private ConstructorArgument constructorArgument = new ConstructorArgument();
+
     public GenericBeanDefinition(String id, String beanClassName) {
 
         this.id = id;
         this.beanClassName = beanClassName;
     }
     public String getBeanClassName() {
-
         return this.beanClassName;
     }
 
     @Override
     public List<PropertyValue> getPropertyValues() {
         return this.propertyValueList;
+    }
+
+    @Override
+    public ConstructorArgument getConstructorArgument() {
+        return this.constructorArgument;
     }
 
     public boolean isSingleton() {
