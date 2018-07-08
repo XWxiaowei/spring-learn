@@ -1,5 +1,8 @@
 package com.jay.spring.test.v2;
 
+import com.jay.spring.bean.PropertyValue;
+import com.jay.spring.bean.RuntimeBeanReferencePropertyValue;
+import com.jay.spring.bean.TypedStringValuePropertyValue;
 import com.jay.spring.bean.factory.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
@@ -32,7 +35,9 @@ public class BeanDefinitionValueResolverTest {
 
     @Test
     public void testResolveRuntimeBeanRefence() {
-        RuntimeBeanReference reference = new RuntimeBeanReference("accountDao");
+//        RuntimeBeanReference reference = new RuntimeBeanReference("accountDao");
+        PropertyValue reference = new RuntimeBeanReferencePropertyValue("accountDao");
+//        Object value = resolve.resolveValueIfNecessary(reference);
         Object value = resolve.resolveValueIfNecessary(reference);
         Assert.assertNotNull(value);
         Assert.assertTrue(value instanceof AccountDao);
@@ -41,9 +46,9 @@ public class BeanDefinitionValueResolverTest {
 
     @Test
     public void testResolveTypeStringValue() {
-        TypedStringValue stringValue = new TypedStringValue("test");
+        PropertyValue stringValue = new TypedStringValuePropertyValue("xiangwei");
         Object value = resolve.resolveValueIfNecessary(stringValue);
         Assert.assertNotNull(value);
-        Assert.assertEquals("test", value);
+        Assert.assertEquals("xiangwei", value);
     }
 }

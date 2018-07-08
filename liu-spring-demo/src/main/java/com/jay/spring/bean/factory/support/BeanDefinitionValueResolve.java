@@ -1,5 +1,6 @@
 package com.jay.spring.bean.factory.support;
 
+import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.factory.BeanFactory;
 import com.jay.spring.bean.factory.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
@@ -17,16 +18,19 @@ public class BeanDefinitionValueResolve {
         this.beanFactory = beanFactory;
     }
 
-    public Object resolveValueIfNecessary(Object value) {
-        if (value instanceof RuntimeBeanReference) {
-            RuntimeBeanReference ref = (RuntimeBeanReference) value;
-            String refName = ref.getBeanName();
-            Object bean = this.beanFactory.getBean(refName);
-            return bean;
-        } else if (value instanceof TypedStringValue) {
-            return ((TypedStringValue) value).getValue();
-        } else {
-            throw new RuntimeException("the value " + value + " has not implemented");
-        }
+    //    public Object resolveValueIfNecessary(Object value) {
+//        if (value instanceof RuntimeBeanReference) {
+//            RuntimeBeanReference ref = (RuntimeBeanReference) value;
+//            String refName = ref.getBeanName();
+//            Object bean = this.beanFactory.getBean(refName);
+//            return bean;
+//        } else if (value instanceof TypedStringValue) {
+//            return ((TypedStringValue) value).getValue();
+//        } else {
+//            throw new RuntimeException("the value " + value + " has not implemented");
+//        }
+//    }
+    public Object resolveValueIfNecessary(PropertyValue pv) {
+        return pv.resolve(this.beanFactory);
     }
 }

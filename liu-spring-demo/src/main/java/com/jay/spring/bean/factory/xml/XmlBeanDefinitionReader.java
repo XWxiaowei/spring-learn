@@ -4,6 +4,8 @@ import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.PropertyValue;
+import com.jay.spring.bean.RuntimeBeanReferencePropertyValue;
+import com.jay.spring.bean.TypedStringValuePropertyValue;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
@@ -94,13 +96,21 @@ public class XmlBeanDefinitionReader {
                 logger.fatal("Tag 'property' must have a 'name' attribute");
                 return;
             }
-            Object val = parsePropertyValue(propElem, bd, propertyName);
-            PropertyValue pv = new PropertyValue(propertyName, val);
+            PropertyValue pv=parsePropertyValue(propElem, bd, propertyName);
             bd.getPropertyValues().add(pv);
         }
     }
 
-    public Object parsePropertyValue(Element ele, BeanDefinition bd, String propertyName) {
+    /**
+     * TODO 为什么不在此处解析property标签的时候将ref属性所对应的对象实例化，保存到PropertyValue中？
+     * 答：1.职责分离，
+     *     2.推迟到使用的地方做（lazy-init）
+     * @param ele
+     * @param bd
+     * @param propertyName
+     * @return
+     */
+    public PropertyValue parsePropertyValue(Element ele, BeanDefinition bd, String propertyName) {
         String elementName = (propertyName != null) ?
                 "<property> element for property '" + propertyName + "'" :
                 "<constructor-arg> element";
@@ -112,10 +122,10 @@ public class XmlBeanDefinitionReader {
             if (!StringUtils.hasText(refName)) {
                 logger.error(elementName + " contains empty 'ref' attribute");
             }
-            RuntimeBeanReference ref = new RuntimeBeanReference(refName);
+            PropertyValue ref = new RuntimeBeanReferencePropertyValue(refName);
             return ref;
         } else if (hasValueAttribute) {
-            TypedStringValue typedStringValue = new TypedStringValue(ele.attributeValue(VALUE_ATTRIBUTE));
+            PropertyValue typedStringValue = new TypedStringValuePropertyValue(ele.attributeValue(VALUE_ATTRIBUTE));
             return typedStringValue;
 
         } else {

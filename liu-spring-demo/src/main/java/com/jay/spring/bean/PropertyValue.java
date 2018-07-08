@@ -1,21 +1,19 @@
 package com.jay.spring.bean;
 
+import com.jay.spring.bean.factory.BeanFactory;
+
 /**
  * Created by xiang.wei on 2018/6/26
  *
  * @author xiang.wei
  */
-public class PropertyValue {
-    private final String name;
-    private final Object value;
+public abstract class PropertyValue {
+    protected  String name;
+    protected  Object value;
 
     private boolean converted = false;
     private Object convertedValue;
 
-    public PropertyValue(String name, Object value) {
-        this.name = name;
-        this.value = value;
-    }
 
     public String getName() {
         return name;
@@ -33,12 +31,16 @@ public class PropertyValue {
         this.converted = converted;
     }
 
-    public Object getConvertedValue() {
-        return convertedValue;
+    public abstract Object resolve(BeanFactory beanFactory);
+
+    public synchronized void setConvertedValue(Object value) {
+        this.converted = true;
+        this.convertedValue = value;
     }
 
-    public void setConvertedValue(Object convertedValue) {
-        this.converted = true;
-        this.convertedValue = convertedValue;
+    public synchronized Object getConvertedValue() {
+        return this.convertedValue;
     }
+
+
 }

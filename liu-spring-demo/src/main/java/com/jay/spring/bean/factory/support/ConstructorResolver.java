@@ -79,25 +79,25 @@ public class ConstructorResolver {
                                      SimpleTypeCoverter typeCoverter) {
 
 
-        for (int i = 0; i < parameterTypes.length; i++) {
-            ConstructorArgument.ValueHolder valueHolder = valueHolders.get(i);
-//            获取参数的值，可能是TypedStringValue,也可能是RuntimeBeanReference
-            Object originalValue = valueHolder.getValue();
-            try {
-                //获得真正的值
-                Object resolvedValue = valueResolve.resolveValueIfNecessary(originalValue);
-//                如果参数类型是int，但是值是字符串，例如"3"，还需要转型
-//                如果转型失败，则抛出异常，说明这个构造器不可用
-                Object convertedValue = typeCoverter.convertIfNecessary(resolvedValue, parameterTypes[i]);
-//                转型成功，记录下来
-                argsToUse[i] = convertedValue;
-
-            } catch (Exception e) {
-                logger.error(e);
-                return false;
-            }
-
-        }
+//        for (int i = 0; i < parameterTypes.length; i++) {
+//            ConstructorArgument.ValueHolder valueHolder = valueHolders.get(i);
+////            获取参数的值，可能是TypedStringValue,也可能是RuntimeBeanReference
+//            Object originalValue = valueHolder.getValue();
+//            try {
+//                //获得真正的值
+//                Object resolvedValue = valueResolve.resolveValueIfNecessary(originalValue);
+////                如果参数类型是int，但是值是字符串，例如"3"，还需要转型
+////                如果转型失败，则抛出异常，说明这个构造器不可用
+//                Object convertedValue = typeCoverter.convertIfNecessary(resolvedValue, parameterTypes[i]);
+////                转型成功，记录下来
+//                argsToUse[i] = convertedValue;
+//
+//            } catch (Exception e) {
+//                logger.error(e);
+//                return false;
+//            }
+//
+//        }
         return true;
     }
 }

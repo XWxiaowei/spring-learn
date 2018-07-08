@@ -94,7 +94,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
                 String propertyName = pv.getName();
                 //对于ref来说就是beanName,对于value 来说就是value
                 Object originalValue = pv.getValue();
-                Object resolvedValue = valueResolve.resolveValueIfNecessary(originalValue);
+                Object resolvedValue = valueResolve.resolveValueIfNecessary(pv);
 //                假设现在originalValue表示的是ref=accountDao,已经通过resolve得到了accountDao对象，接下来
 //                如何调用petStoreService的setAccountDao方法？
 //                注释：使用到了java.beans 中的Introspector类拿到bean的相关信息，包括其属性，方法
@@ -141,7 +141,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
                 String propertyName = pv.getName();
                 Object originalValue = pv.getValue();
 
-                Object resolve = valueResolve.resolveValueIfNecessary(originalValue);
+                Object resolve = valueResolve.resolveValueIfNecessary(pv);
                 BeanUtils.copyProperty(bean, propertyName, resolve);
 
             }
