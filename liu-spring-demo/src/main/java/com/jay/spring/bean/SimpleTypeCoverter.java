@@ -13,22 +13,33 @@ import java.util.Map;
  *
  * @author xiang.wei
  */
-public class SimpleTypeCoverter implements TypeConverter {
+    public class SimpleTypeCoverter implements TypeConverter {
     private Map<Class<?>, PropertyEditor> defaultEditors;
 
     public SimpleTypeCoverter() {
     }
 
+    /**
+     * 值的类型转化
+     * @param value  3
+     * @param requiredType  Integer.class
+     * @param <T>
+     * @return
+     * @throws TypeMismatchException
+     */
     @Override
     public <T> T convertIfNecessary(Object value, Class<T> requiredType) throws TypeMismatchException {
+        // 值能不能直接赋值呢，能，直接返回
         if (ClassUtils.isAssignableValue(requiredType, value)) {
             return (T) value;
         } else {
+//            只支持字符串
             if (value instanceof String) {
                 PropertyEditor defaultEditor = findDefaultEditor(requiredType);
                 try {
                     defaultEditor.setAsText((String) value);
                 } catch (IllegalArgumentException e) {
+                    //非法参数异常
                     throw new TypeMismatchException(value, requiredType);
                 }
                 return (T) defaultEditor.getValue();
@@ -40,6 +51,7 @@ public class SimpleTypeCoverter implements TypeConverter {
     }
 
     private PropertyEditor findDefaultEditor(Class<?> requiredType) {
+        // 查找DefaultEditor
         PropertyEditor defaultEditor = this.getDefaultEditor(requiredType);
         if (defaultEditor == null) {
             throw new RuntimeException("Editor for" + requiredType + "has not been implemented");
@@ -53,6 +65,7 @@ public class SimpleTypeCoverter implements TypeConverter {
         }
         return defaultEditors.get(requiredType);
     }
+
 
     private void createDefaultEditors() {
         this.defaultEditors = new HashMap<Class<?>, PropertyEditor>(64);

@@ -57,8 +57,8 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 //        创建实例
         Object bean = instantiateBean(bd);
         //设置属性
-//        populateBean(bd, bean);
-        populateBeanUseCommonBeanUtils(bd,bean);
+        populateBean(bd, bean);
+//        populateBeanUseCommonBeanUtils(bd,bean);
         return bean;
     }
 
@@ -74,25 +74,36 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }
     }
 
+    /**
+     * 调用set方法进行setter注入
+     * @param bd
+     * @param bean
+     */
     protected void populateBean(BeanDefinition bd, Object bean) {
+        // 获取一个bean下所有的PropertyValue
         List<PropertyValue> pvs = bd.getPropertyValues();
         if (pvs == null || pvs.isEmpty()) {
             return;
         }
+        // 实例化BeanDefinitionValueResolve，并传入当前的DefaultBeanFactory
         BeanDefinitionValueResolve valueResolve = new BeanDefinitionValueResolve(this);
         SimpleTypeCoverter coverter = new SimpleTypeCoverter();
 
         try {
             for (PropertyValue pv : pvs) {
                 String propertyName = pv.getName();
+                //对于ref来说就是beanName,对于value 来说就是value
                 Object originalValue = pv.getValue();
                 Object resolvedValue = valueResolve.resolveValueIfNecessary(originalValue);
-
+//                假设现在originalValue表示的是ref=accountDao,已经通过resolve得到了accountDao对象，接下来
+//                如何调用petStoreService的setAccountDao方法？
+//                注释：使用到了java.beans 中的Introspector类拿到bean的相关信息，包括其属性，方法
                 BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
                 PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
                 for (PropertyDescriptor pd : pds) {
                     if (pd.getName().equals(propertyName)) {
                         Object convertedValue = coverter.convertIfNecessary(resolvedValue, pd.getPropertyType());
+                        //通过反射的方式调用set方法
                         pd.getWriteMethod().invoke(bean, convertedValue);
                         break;
                     }
