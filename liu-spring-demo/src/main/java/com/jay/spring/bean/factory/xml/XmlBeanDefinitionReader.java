@@ -122,10 +122,10 @@ public class XmlBeanDefinitionReader {
             if (!StringUtils.hasText(refName)) {
                 logger.error(elementName + " contains empty 'ref' attribute");
             }
-            PropertyValue ref = new RuntimeBeanReferencePropertyValue(refName);
+            PropertyValue ref = new RuntimeBeanReferencePropertyValue(ele.attributeValue(NAME_ATTRIBUTE),refName);
             return ref;
         } else if (hasValueAttribute) {
-            PropertyValue typedStringValue = new TypedStringValuePropertyValue(ele.attributeValue(VALUE_ATTRIBUTE));
+            PropertyValue typedStringValue = new TypedStringValuePropertyValue(ele.attributeValue(NAME_ATTRIBUTE),ele.attributeValue(VALUE_ATTRIBUTE));
             return typedStringValue;
 
         } else {

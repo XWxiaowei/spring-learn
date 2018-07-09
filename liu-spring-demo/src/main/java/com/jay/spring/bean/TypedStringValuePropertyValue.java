@@ -9,7 +9,8 @@ import com.jay.spring.bean.factory.BeanFactory;
  */
 public class TypedStringValuePropertyValue extends PropertyValue {
 
-    public TypedStringValuePropertyValue(String value) {
+    public TypedStringValuePropertyValue(String name,String value) {
+        this.name = name;
         this.value = value;
     }
 

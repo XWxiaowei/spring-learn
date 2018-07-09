@@ -9,8 +9,9 @@ import com.jay.spring.bean.factory.BeanFactory;
  */
 public class RuntimeBeanReferencePropertyValue extends PropertyValue {
 
-    public RuntimeBeanReferencePropertyValue(String name) {
+    public RuntimeBeanReferencePropertyValue(String name,String value) {
         this.name = name;
+        this.value = value;
     }
 
 
