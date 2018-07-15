@@ -1,4 +1,4 @@
-package com.jay.spring.Exception;
+package com.jay.spring.bean.factory;
 
 import com.jay.spring.bean.BeanException;
 

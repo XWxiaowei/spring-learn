@@ -1,6 +1,6 @@
 package com.jay.spring.core.type;
 
-import com.jay.spring.bean.factory.annotation.AnnotationAttributes;
+import com.jay.spring.core.annotation.AnnotationAttributes;
 
 import java.util.Set;
 

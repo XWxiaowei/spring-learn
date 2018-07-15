@@ -1,6 +1,5 @@
 package com.jay.spring.bean.factory;
 
-import com.jay.spring.Exception.BeanCreationException;
 import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.BeanException;
@@ -30,13 +29,13 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     private ClassLoader classLoader;
 
     @Override
-    public BeanDefinition getDefinition(String id) {
+    public BeanDefinition getBeanDefinition(String id) {
         return beanDefinitionMap.get(id);
     }
 
     @Override
     public Object getBean(String beanId) {
-        BeanDefinition bd = getDefinition(beanId);
+        BeanDefinition bd = getBeanDefinition(beanId);
         if (bd == null) {
             throw new BeanException("BeanDefinition is not exist");
         }
@@ -151,4 +150,5 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 
 
     }
+
 }

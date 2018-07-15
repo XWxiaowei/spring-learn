@@ -26,7 +26,7 @@ public class BeanDefinitionTestV3 {
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         reader.loadBeanDefinition(new ClassPathResource("petstore-v3.xml"));
 
-        BeanDefinition bd = factory.getDefinition("petStoreService");
+        BeanDefinition bd = factory.getBeanDefinition("petStoreService");
 
         Assert.assertEquals("com.jay.spring.service.v3.PetStoreService", bd.getBeanClassName());
 

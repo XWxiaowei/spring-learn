@@ -13,7 +13,7 @@ public interface BeanDefinitionRegistry {
      * @param id
      * @return
      */
-    BeanDefinition getDefinition(String id);
+    BeanDefinition getBeanDefinition(String id);
 
     void registerBeanDefinition(String beanId, BeanDefinition beanDefinition);
 

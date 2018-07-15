@@ -1,6 +1,6 @@
 package com.jay.spring.core.type.classreading;
 
-import com.jay.spring.bean.factory.annotation.AnnotationAttributes;
+import com.jay.spring.core.annotation.AnnotationAttributes;
 import com.jay.spring.core.type.AnnotationMetadata;
 import jdk.internal.org.objectweb.asm.Type;
 import org.springframework.asm.AnnotationVisitor;

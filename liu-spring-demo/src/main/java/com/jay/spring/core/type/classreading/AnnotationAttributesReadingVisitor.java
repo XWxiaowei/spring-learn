@@ -1,6 +1,6 @@
 package com.jay.spring.core.type.classreading;
 
-import com.jay.spring.bean.factory.annotation.AnnotationAttributes;
+import com.jay.spring.core.annotation.AnnotationAttributes;
 import org.springframework.asm.AnnotationVisitor;
 import org.springframework.asm.SpringAsmInfo;
 

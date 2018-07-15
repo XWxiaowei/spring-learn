@@ -22,7 +22,7 @@ public class ConstructorResolverTest {
         reader.loadBeanDefinition(new ClassPathResource("petstore-v3.xml"));
 
 
-        BeanDefinition bd = factory.getDefinition("petStoreService");
+        BeanDefinition bd = factory.getBeanDefinition("petStoreService");
 
         ConstructorResolver resolver = new ConstructorResolver(factory);
         PetStoreService petStoreService = (PetStoreService) resolver.autowireConstructor(bd);

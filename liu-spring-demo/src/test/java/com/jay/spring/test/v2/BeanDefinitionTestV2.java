@@ -24,7 +24,7 @@ public class BeanDefinitionTestV2 {
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         reader.loadBeanDefinition(new ClassPathResource("petstore-v2.xml"));
 
-        BeanDefinition petStoreService = factory.getDefinition("petStoreService");
+        BeanDefinition petStoreService = factory.getBeanDefinition("petStoreService");
         List<PropertyValue> pvs = petStoreService.getPropertyValues();
         Assert.assertTrue(pvs.size() == 4);
         {

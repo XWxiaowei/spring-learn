@@ -1,6 +1,6 @@
 package com.jay.spring.test.v4;
 
-import com.jay.spring.bean.factory.annotation.AnnotationAttributes;
+import com.jay.spring.core.annotation.AnnotationAttributes;
 import com.jay.spring.core.io.ClassPathResource;
 import com.jay.spring.core.type.AnnotationMetadata;
 import com.jay.spring.core.type.classreading.MetadataReader;

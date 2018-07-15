@@ -1,4 +1,4 @@
-package com.jay.spring.bean.factory.annotation;
+package com.jay.spring.core.annotation;
 
 import com.jay.spring.util.Assert;
 

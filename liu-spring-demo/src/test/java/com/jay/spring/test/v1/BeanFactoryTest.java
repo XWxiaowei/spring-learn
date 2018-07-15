@@ -36,7 +36,7 @@ public class BeanFactoryTest {
 
     @Test
     public void testGetBean() {
-        BeanDefinition beanDefinition = factory.getDefinition("petStoreService");
+        BeanDefinition beanDefinition = factory.getBeanDefinition("petStoreService");
 
         assertEquals("com.jay.spring.service.v1.PetStoreService", beanDefinition.getBeanClassName());
         assertTrue(beanDefinition.isSingleton());
