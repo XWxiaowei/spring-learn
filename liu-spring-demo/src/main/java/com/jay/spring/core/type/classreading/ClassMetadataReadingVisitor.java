@@ -49,6 +49,7 @@ public class ClassMetadataReadingVisitor  extends ClassVisitor{
      * 有两个字节表示访问标识(access_flags)，
      * 这个标识用于识别一些类或者接口层次的访问信息，
      * 例如这个Class是类或者接口，是否为public ,abstract ,final 等等
+     * 对类的处理，判断类的基本情况
      *
      */
     //

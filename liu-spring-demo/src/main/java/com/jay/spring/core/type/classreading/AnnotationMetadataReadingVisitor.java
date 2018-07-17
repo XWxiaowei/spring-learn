@@ -23,6 +23,7 @@ public class AnnotationMetadataReadingVisitor extends  ClassMetadataReadingVisit
     public AnnotationMetadataReadingVisitor() {
 
     }
+    //TODO 这个方法是从哪儿调的？
     @Override
     public AnnotationVisitor visitAnnotation(final String desc, boolean visible) {
         String className = Type.getType(desc).getClassName();
