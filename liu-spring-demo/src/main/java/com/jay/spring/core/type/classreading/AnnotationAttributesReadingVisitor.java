@@ -7,6 +7,7 @@ import org.springframework.asm.SpringAsmInfo;
 import java.util.Map;
 
 /**
+ *  实现对一个注解的属性的解析的。
  * Created by xiang.wei on 2018/7/14
  *
  * @author xiang.wei

@@ -35,6 +35,23 @@ public class ClassMetadataReadingVisitor  extends ClassVisitor{
     public ClassMetadataReadingVisitor(int i, ClassVisitor classVisitor) {
         super(i, classVisitor);
     }
+
+    /**
+     * @param version
+     * @param access
+     * @param name
+     * @param signature
+     * @param supername
+     * @param interfaces
+     *
+     *
+     * 这个涉及到了Java的字节码， 在Java字节码中，常量池结束之后，
+     * 有两个字节表示访问标识(access_flags)，
+     * 这个标识用于识别一些类或者接口层次的访问信息，
+     * 例如这个Class是类或者接口，是否为public ,abstract ,final 等等
+     *
+     */
+    //
     @Override
     public void visit(int version, int access, String name, String signature, String supername, String[] interfaces) {
         this.className = ClassUtils.convertResourcePathToClassName(name);
