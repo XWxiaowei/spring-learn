@@ -1,6 +1,5 @@
 package com.jay.spring.context.annotation;
 
-import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.factory.BeanDefinitionStoreException;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
@@ -19,6 +18,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
+ * 1. 给定一个package的名称列表，例如
+ org.litespring.service.v4,org.litespring.dao.v4"
+
+ 2. 对指定的package 进行扫描(scan)，找到那些标记为@Component 的类，创建ScannedGenericBeanDefinition，并且注册到BeanFactory中。
+
  * Created by xiang.wei on 2018/7/15
  *
  * @author xiang.wei

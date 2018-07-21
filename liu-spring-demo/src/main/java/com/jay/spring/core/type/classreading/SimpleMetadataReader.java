@@ -1,6 +1,5 @@
 package com.jay.spring.core.type.classreading;
 
-import com.jay.spring.core.io.ClassPathResource;
 import com.jay.spring.core.io.Resource;
 import com.jay.spring.core.type.AnnotationMetadata;
 import com.jay.spring.core.type.ClassMetadata;
@@ -21,6 +20,7 @@ public class SimpleMetadataReader implements MetadataReader {
     private final AnnotationMetadata annotationMetadata;
 
     public SimpleMetadataReader(Resource resource) throws IOException {
+        // 提高一点性能吧
         InputStream inputStream = new BufferedInputStream(resource.getInputStream());
         ClassReader classReader;
 

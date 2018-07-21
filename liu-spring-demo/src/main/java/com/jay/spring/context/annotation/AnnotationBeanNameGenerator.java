@@ -28,7 +28,7 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
         }
         return buildDefaultBeanName(definition, registry);
     }
-
+    //TODO 如果是其他的注解呢？
     protected String determineBeanNameFromAnnotation(AnnotatedBeanDefinition  annotatedDef) {
         AnnotationMetadata amd = annotatedDef.getMetadata();
         Set<String> types = amd.getAnnotationTypes();
