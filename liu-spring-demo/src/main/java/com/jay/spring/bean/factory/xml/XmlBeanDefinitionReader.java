@@ -59,7 +59,7 @@ public class XmlBeanDefinitionReader {
     }
 
 
-    public void loadBeanDefinition(Resource resource) {
+    public void loadBeanDefinitions(Resource resource) {
         InputStream inputStream = null;
         try {
             try {
@@ -179,4 +179,5 @@ public class XmlBeanDefinitionReader {
         scanner.doScan(basePackages);
 
     }
+
 }

@@ -26,4 +26,10 @@ public interface BeanDefinition {
     ConstructorArgument getConstructorArgument();
 
     String getID();
+
+    public boolean hasConstructorArgumentValues();
+
+    public Class<?> resolveBeanClass(ClassLoader classLoader) throws ClassNotFoundException;
+    public Class<?> getBeanClass() throws IllegalStateException ;
+    public boolean hasBeanClass();
 }

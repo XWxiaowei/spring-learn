@@ -21,9 +21,10 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         defaultBeanFactory = new DefaultBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(defaultBeanFactory);
         Resource resource = getResourceByPath(configFile);
-        reader.loadBeanDefinition(resource);
+        reader.loadBeanDefinitions(resource);
         //TODO 获取classLoader方式有问题
         defaultBeanFactory.setBeanClassLoader(this.getBeanClassLoader());
+
     }
 
     @Override
@@ -33,13 +34,15 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 
     public abstract Resource getResourceByPath(String configFile);
 
-    @Override
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
-    @Override
     public ClassLoader getBeanClassLoader() {
         return this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader();
     }
+
+//    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
+//        AutowiredAnnotationProcessor autowireCapableBeanFactory = new AutowiredAnnotationProcessor();
+//    }
 }

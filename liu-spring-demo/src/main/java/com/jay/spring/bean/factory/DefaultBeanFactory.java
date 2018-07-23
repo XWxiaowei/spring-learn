@@ -6,8 +6,10 @@ import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.SimpleTypeCoverter;
 import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
+import com.jay.spring.bean.factory.config.DependencyDescriptor;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.bean.factory.support.BeanDefinitionValueResolve;
+import com.jay.spring.bean.factory.support.ConstructorResolver;
 import com.jay.spring.bean.factory.support.DefaultSingletonBeanRegistry;
 import com.jay.spring.util.ClassUtils;
 import org.apache.commons.beanutils.BeanUtils;
@@ -62,14 +64,19 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private Object instantiateBean(BeanDefinition bd) {
-        ClassLoader beanClassLoader = this.getBeanClassLoader();
-        String beanClassName = bd.getBeanClassName();
+        if (bd.hasConstructorArgumentValues()) {
+            ConstructorResolver resolver = new ConstructorResolver(this);
+            return resolver.autowireConstructor(bd);
+        } else {
+            ClassLoader beanClassLoader = this.getBeanClassLoader();
+            String beanClassName = bd.getBeanClassName();
 
-        try {
-            Class<?> clz = beanClassLoader.loadClass(beanClassName);
-            return clz.newInstance();
-        } catch (Exception e) {
-            throw new BeanCreationException("create bean for "+ beanClassName +" failed",e);
+            try {
+                Class<?> clz = beanClassLoader.loadClass(beanClassName);
+                return clz.newInstance();
+            } catch (Exception e) {
+                throw new BeanCreationException("create bean for " + beanClassName + " failed", e);
+            }
         }
     }
 
@@ -151,4 +158,30 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
 
     }
 
+    @Override
+    public Object resolveDependency(DependencyDescriptor descriptor) {
+        Class<?> typeToMatch = descriptor.getDepencyType();
+        for (BeanDefinition bd : this.beanDefinitionMap.values()) {
+            //确保BeanDefinition 有class对象
+            resolveBeanClass(bd);
+            Class<?> beanClass = bd.getBeanClass();
+            if (typeToMatch.isAssignableFrom(beanClass)) {
+               return getBean(bd.getID());
+            }
+        }
+        return null;
+    }
+
+    public void resolveBeanClass(BeanDefinition bd) {
+        if (bd.hasBeanClass()) {
+            return;
+        } else {
+            try {
+                bd.resolveBeanClass(this.getBeanClassLoader());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("can't load class:"+bd.getBeanClassName());
+            }
+        }
+
+    }
 }

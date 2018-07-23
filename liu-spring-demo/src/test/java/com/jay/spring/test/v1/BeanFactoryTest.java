@@ -30,7 +30,7 @@ public class BeanFactoryTest {
         factory = new DefaultBeanFactory();
         reader = new XmlBeanDefinitionReader(factory);
         resource = new ClassPathResource("petstore-v1.xml");
-        reader.loadBeanDefinition(resource);
+        reader.loadBeanDefinitions(resource);
 
     }
 
@@ -69,7 +69,7 @@ public class BeanFactoryTest {
         Resource resource = new ClassPathResource("xxx.xml");
 
         try {
-            reader.loadBeanDefinition(resource);
+            reader.loadBeanDefinitions(resource);
         } catch (BeanDefinitionException e) {
             return;
         }

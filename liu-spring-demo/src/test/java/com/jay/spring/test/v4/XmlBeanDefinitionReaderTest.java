@@ -24,7 +24,7 @@ public class XmlBeanDefinitionReaderTest {
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         Resource resource = new ClassPathResource("petstore-v4.xml");
 
-        reader.loadBeanDefinition(resource);
+        reader.loadBeanDefinitions(resource);
         String annotation = Component.class.getName();        //下面的代码和ClassPathBeanDefinitionScannerTest重复，该怎么处理？
         {
             BeanDefinition bd = factory.getBeanDefinition("petStoreService");
