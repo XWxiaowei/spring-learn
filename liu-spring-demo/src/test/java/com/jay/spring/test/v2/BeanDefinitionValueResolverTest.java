@@ -1,6 +1,6 @@
 package com.jay.spring.test.v2;
 
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
 import com.jay.spring.bean.factory.support.BeanDefinitionValueResolve;

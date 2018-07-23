@@ -1,6 +1,6 @@
 package com.jay.spring.test.v4;
 
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.DependencyDescriptor;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.core.io.ClassPathResource;
@@ -23,7 +23,7 @@ public class DependencyDescriptorTest {
         DefaultBeanFactory factory = new DefaultBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         Resource resource = new ClassPathResource("petstore-v4.xml");
-//        reader.loadBeanDefinitions(resource);
+        reader.loadBeanDefinitions(resource);
 
 
         Field field = PetStoreService.class.getDeclaredField("accountDao");

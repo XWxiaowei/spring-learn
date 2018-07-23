@@ -1,12 +1,9 @@
 package com.jay.spring.bean.factory.annotation;
 
 import com.jay.spring.bean.factory.BeanCreationException;
-import com.jay.spring.bean.factory.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.AutowireCapableBeanFactory;
 import com.jay.spring.bean.factory.config.DependencyDescriptor;
 import com.jay.spring.util.ReflectionUtils;
-import com.sun.deploy.util.ReflectionUtil;
-import sun.reflect.Reflection;
 
 import java.lang.reflect.Field;
 

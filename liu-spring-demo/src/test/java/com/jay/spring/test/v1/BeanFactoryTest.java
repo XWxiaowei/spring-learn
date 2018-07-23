@@ -4,7 +4,7 @@ import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.service.v1.PetStoreService;
 import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.BeanDefinition;
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.core.io.ClassPathResource;
 import com.jay.spring.core.io.Resource;

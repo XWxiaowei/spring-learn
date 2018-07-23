@@ -1,6 +1,8 @@
 package com.jay.spring.context.support;
 
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
+import com.jay.spring.bean.factory.annotation.AutowiredAnnotationProcessor;
+import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.core.io.Resource;
@@ -12,24 +14,23 @@ import com.jay.spring.util.ClassUtils;
  * @author xiang.wei
  */
 public abstract class AbstractApplicationContext implements ApplicationContext {
-    private DefaultBeanFactory defaultBeanFactory = null;
+    private DefaultBeanFactory factory = null;
     private ClassLoader classLoader;
 
 
 
     public AbstractApplicationContext(String configFile) {
-        defaultBeanFactory = new DefaultBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(defaultBeanFactory);
+        factory = new DefaultBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         Resource resource = getResourceByPath(configFile);
         reader.loadBeanDefinitions(resource);
-        //TODO 获取classLoader方式有问题
-        defaultBeanFactory.setBeanClassLoader(this.getBeanClassLoader());
-
+        factory.setBeanClassLoader(this.getBeanClassLoader());
+        registerBeanPostProcessors(factory);
     }
 
     @Override
     public Object getBean(String beanId) {
-        return defaultBeanFactory.getBean(beanId);
+        return factory.getBean(beanId);
     }
 
     public abstract Resource getResourceByPath(String configFile);
@@ -42,7 +43,9 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         return this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader();
     }
 
-//    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
-//        AutowiredAnnotationProcessor autowireCapableBeanFactory = new AutowiredAnnotationProcessor();
-//    }
+    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
+        AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
+        postProcessor.setBeanFactory(beanFactory);
+        beanFactory.addBeanPostProcessor(postProcessor);
+    }
 }

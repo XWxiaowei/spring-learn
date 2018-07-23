@@ -3,7 +3,7 @@ package com.jay.spring.test.v3;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.ConstructorArgument.ValueHolder;
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;

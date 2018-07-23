@@ -2,7 +2,7 @@ package com.jay.spring.test.v2;
 
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.PropertyValue;
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.core.io.ClassPathResource;

@@ -1,6 +1,6 @@
 package com.jay.spring.test.v4;
 
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.annotation.AutowiredAnnotationProcessor;
 import com.jay.spring.bean.factory.annotation.AutowiredFieldElement;
 import com.jay.spring.bean.factory.annotation.InjectionElement;
@@ -12,7 +12,6 @@ import com.jay.spring.service.v4.PetStoreService;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.lang.annotation.Retention;
 import java.lang.reflect.Field;
 import java.util.List;
 

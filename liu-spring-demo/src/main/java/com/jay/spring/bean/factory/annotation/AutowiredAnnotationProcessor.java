@@ -3,6 +3,7 @@ package com.jay.spring.bean.factory.annotation;
 import com.jay.spring.bean.BeansException;
 import com.jay.spring.bean.factory.BeanCreationException;
 import com.jay.spring.bean.factory.config.AutowireCapableBeanFactory;
+import com.jay.spring.bean.factory.config.InstantiationAwareBeanPostProcessor;
 import com.jay.spring.util.ReflectionUtils;
 
 import java.lang.annotation.Annotation;
@@ -10,7 +11,6 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -20,12 +20,17 @@ import java.util.Set;
  *
  * @author xiang.wei
  */
-public class AutowiredAnnotationProcessor {
+public class AutowiredAnnotationProcessor implements InstantiationAwareBeanPostProcessor {
+
     private AutowireCapableBeanFactory beanFactory;
     private String requiredParameterName = "required";
     private boolean requiredParameterValue = true;
 
     private final Set<Class<? extends Annotation>> autowiredAnnotationTypes = new LinkedHashSet<Class<? extends Annotation>>();
+
+    public AutowiredAnnotationProcessor() {
+        this.autowiredAnnotationTypes.add(Autowired.class);
+    }
 
     public InjectionMetadata buildAutowiringMetadata(Class<?> clazz) {
         LinkedList<InjectionElement> elements = new LinkedList<InjectionElement>();
@@ -48,7 +53,7 @@ public class AutowiredAnnotationProcessor {
         }
         elements.addAll(0, currentElements);
         targetClass = targetClass.getSuperclass();
-        while (targetClass != null && targetClass != Object.class);
+        while (targetClass != null && targetClass != Object.class) ;
 
         return new InjectionMetadata(clazz, elements);
 
@@ -63,13 +68,13 @@ public class AutowiredAnnotationProcessor {
                 return true;
             }
             return (this.requiredParameterValue == (Boolean) ReflectionUtils.invokeMethod(method, ann));
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             // An exception was thrown during reflective invocation of the required attribute
             // -> default to required status
             return true;
         }
     }
+
     private Annotation findAutowiredAnnotation(AccessibleObject accessibleObject) {
         for (Class<? extends Annotation> type : this.autowiredAnnotationTypes) {
             Annotation annotation = AnnotationUtils.getAnnotation(accessibleObject, type);
@@ -83,32 +88,35 @@ public class AutowiredAnnotationProcessor {
     public void setBeanFactory(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
-    public Object beforeInitialization(Object bean, String beanName) throws BeansException {
-        //do nothing
-        return bean;
-    }
-    public Object afterInitialization(Object bean, String beanName) throws BeansException {
-        // do nothing
-        return bean;
-    }
+
+    @Override
     public Object beforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
         return null;
     }
 
+    @Override
     public boolean afterInstantiation(Object bean, String beanName) throws BeansException {
-        // do nothing
-        return true;
+        return false;
     }
 
+    @Override
     public void postProcessPropertyValues(Object bean, String beanName) throws BeansException {
         InjectionMetadata metadata = buildAutowiringMetadata(bean.getClass());
         try {
             metadata.inject(bean);
-        }
-        catch (Throwable ex) {
+        } catch (Exception ex) {
             throw new BeanCreationException(beanName, "Injection of autowired dependencies failed", ex);
         }
+
     }
 
+    @Override
+    public Object beforeInitialization(Object bean, String beanName) throws BeansException {
+        return null;
+    }
 
+    @Override
+    public Object afterInitialization(Object bean, String beanName) throws BeansException {
+        return null;
+    }
 }

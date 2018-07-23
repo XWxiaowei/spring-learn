@@ -1,6 +1,6 @@
 package com.jay.spring.test.v4;
 
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.annotation.AutowiredFieldElement;
 import com.jay.spring.bean.factory.annotation.InjectionElement;
 import com.jay.spring.bean.factory.annotation.InjectionMetadata;

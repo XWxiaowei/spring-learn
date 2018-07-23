@@ -1,12 +1,15 @@
-package com.jay.spring.bean.factory;
+package com.jay.spring.bean.factory.support;
 
 import com.jay.spring.Exception.BeanDefinitionException;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.SimpleTypeCoverter;
+import com.jay.spring.bean.factory.BeanCreationException;
+import com.jay.spring.bean.factory.config.BeanPostProcessor;
 import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
 import com.jay.spring.bean.factory.config.DependencyDescriptor;
+import com.jay.spring.bean.factory.config.InstantiationAwareBeanPostProcessor;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.bean.factory.support.BeanDefinitionValueResolve;
 import com.jay.spring.bean.factory.support.ConstructorResolver;
@@ -17,6 +20,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +31,22 @@ import java.util.Map;
  */
 public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
     private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<String, BeanDefinition>();
     private ClassLoader classLoader;
 
+    public DefaultBeanFactory() {
+
+    }
+
+    public void addBeanPostProcessor(BeanPostProcessor postProcessor) {
+        this.beanPostProcessors.add(postProcessor);
+    }
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
     @Override
     public BeanDefinition getBeanDefinition(String id) {
         return beanDefinitionMap.get(id);
@@ -86,6 +103,11 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
      * @param bean
      */
     protected void populateBean(BeanDefinition bd, Object bean) {
+        for (BeanPostProcessor processor : this.getBeanPostProcessors()) {
+            if (processor instanceof InstantiationAwareBeanPostProcessor) {
+                ((InstantiationAwareBeanPostProcessor)processor).postProcessPropertyValues(bean, bd.getID());
+            }
+        }
         // 获取一个bean下所有的PropertyValue
         List<PropertyValue> pvs = bd.getPropertyValues();
         if (pvs == null || pvs.isEmpty()) {

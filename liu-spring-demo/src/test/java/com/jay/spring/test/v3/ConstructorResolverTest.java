@@ -2,7 +2,7 @@ package com.jay.spring.test.v3;
 
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.factory.support.ConstructorResolver;
-import com.jay.spring.bean.factory.DefaultBeanFactory;
+import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.jay.spring.core.io.ClassPathResource;
 import com.jay.spring.service.v3.PetStoreService;
