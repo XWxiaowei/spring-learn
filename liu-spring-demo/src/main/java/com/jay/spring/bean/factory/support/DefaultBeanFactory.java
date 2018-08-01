@@ -6,6 +6,7 @@ import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.SimpleTypeCoverter;
 import com.jay.spring.bean.factory.BeanCreationException;
+import com.jay.spring.bean.factory.NoSuchBeanDefinitionException;
 import com.jay.spring.bean.factory.config.BeanPostProcessor;
 import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
 import com.jay.spring.bean.factory.config.DependencyDescriptor;
@@ -69,6 +70,16 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }
         return createBean(bd);
 
+    }
+
+    @Override
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        BeanDefinition bd = this.getBeanDefinition(name);
+        if (bd == null) {
+            throw new NoSuchBeanDefinitionException(name);
+        }
+        resolveBeanClass(bd);
+        return bd.getBeanClass();
     }
 
     public Object createBean(BeanDefinition bd) {

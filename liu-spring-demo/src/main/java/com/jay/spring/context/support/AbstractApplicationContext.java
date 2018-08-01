@@ -1,5 +1,6 @@
 package com.jay.spring.context.support;
 
+import com.jay.spring.bean.factory.NoSuchBeanDefinitionException;
 import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.annotation.AutowiredAnnotationProcessor;
 import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
@@ -47,5 +48,8 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
         postProcessor.setBeanFactory(beanFactory);
         beanFactory.addBeanPostProcessor(postProcessor);
+    }
+    public  Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        return this.factory.getType(name);
     }
 }
