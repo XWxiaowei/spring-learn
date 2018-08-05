@@ -76,6 +76,7 @@ public class AutowiredAnnotationProcessor implements InstantiationAwareBeanPostP
     }
 
     private Annotation findAutowiredAnnotation(AccessibleObject accessibleObject) {
+//        容纳其他的注解
         for (Class<? extends Annotation> type : this.autowiredAnnotationTypes) {
             Annotation annotation = AnnotationUtils.getAnnotation(accessibleObject, type);
             if (annotation != null) {
