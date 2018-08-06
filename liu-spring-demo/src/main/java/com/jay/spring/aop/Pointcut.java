@@ -5,7 +5,7 @@ package com.jay.spring.aop;
  *
  * @author xiang.wei
  */
-public interface PointCut {
+public interface Pointcut {
     MethodMatcher getMethodMatcher();
 
     String getExpression();

@@ -1,7 +1,7 @@
 package com.jay.spring.aop.aspectj;
 
 import com.jay.spring.aop.MethodMatcher;
-import com.jay.spring.aop.PointCut;
+import com.jay.spring.aop.Pointcut;
 import com.jay.spring.util.ClassUtils;
 import com.jay.spring.util.StringUtils;
 import org.aspectj.weaver.reflect.ReflectionWorld;
@@ -20,7 +20,7 @@ import java.util.Set;
  *
  * @author xiang.wei
  */
-public class AspectJExpressionPointcut implements PointCut,MethodMatcher {
+public class AspectJExpressionPointcut implements Pointcut,MethodMatcher {
 
     private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
 
