@@ -80,5 +80,26 @@ public class ReflectiveMethodInvocationTest {
         Assert.assertEquals("place order", msgs.get(1));
         Assert.assertEquals("commit tx", msgs.get(2));
     }
+    @Test
+    public void testAfterThrowing() throws NoSuchMethodException {
+        Method targetMethod = PetStoreService.class.getMethod("placeOrderWithException");
 
+        List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
+        interceptors.add(afterThrowingAdvice);
+        interceptors.add(beforeAdvice);
+
+        ReflectiveMethodInvocation mi = new ReflectiveMethodInvocation(petStoreService,targetMethod,new Object[0],interceptors);
+
+        try {
+            mi.proceed();
+        } catch (Throwable throwable) {
+            List<String> msgs = MessageTracker.getMsgs();
+            Assert.assertEquals(2, msgs.size());
+            Assert.assertEquals("start tx", msgs.get(0));
+            Assert.assertEquals("rollback tx", msgs.get(1));
+            return;
+        }
+        Assert.fail("No Exception thrown");
+
+    }
 }
