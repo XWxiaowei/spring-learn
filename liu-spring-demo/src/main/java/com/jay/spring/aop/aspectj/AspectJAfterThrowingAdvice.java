@@ -16,6 +16,12 @@ public class AspectJAfterThrowingAdvice extends AbstractAspectJAdvice {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        return null;
+        try {
+            return methodInvocation.proceed();
+        }
+        catch (Throwable t) {
+            invokeAdviceMethod();
+            throw t;
+        }
     }
 }

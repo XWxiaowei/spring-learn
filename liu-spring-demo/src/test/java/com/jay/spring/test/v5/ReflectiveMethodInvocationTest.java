@@ -64,7 +64,21 @@ public class ReflectiveMethodInvocationTest {
         Assert.assertEquals("commit tx", msgs.get(2));
     }
     @Test
-    public void testMethodInvocation1() {
+    public void testMethodInvocation1() throws Throwable {
+        Method targetMethod = PetStoreService.class.getMethod("placeOrder");
 
+        List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
+        interceptors.add(afterAdvice);
+        interceptors.add(beforeAdvice);
+
+        ReflectiveMethodInvocation mi = new ReflectiveMethodInvocation(petStoreService, targetMethod, new Object[0], interceptors);
+        mi.proceed();
+
+        List<String> msgs = MessageTracker.getMsgs();
+        Assert.assertEquals(3, msgs.size());
+        Assert.assertEquals("start tx", msgs.get(0));
+        Assert.assertEquals("place order", msgs.get(1));
+        Assert.assertEquals("commit tx", msgs.get(2));
     }
+
 }
