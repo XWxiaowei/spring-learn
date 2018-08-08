@@ -30,7 +30,7 @@ public class CglibAopProxyTest {
 		
 		
 		tx = new TransactionManager();
-		String expression = "execution(* org.litespring.service.v5.*.placeOrder(..))";
+		String expression = "execution(* com.jay.spring.service.v5.*.placeOrder(..))";
 		pc = new AspectJExpressionPointcut();
 		pc.setExpression(expression);
 		
