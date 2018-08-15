@@ -2,6 +2,7 @@ package com.jay.spring.aop.aspectj;
 
 import com.jay.spring.aop.Advice;
 import com.jay.spring.aop.Pointcut;
+import com.jay.spring.aop.config.AspectInstanceFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,21 +14,27 @@ import java.lang.reflect.Method;
 public abstract class AbstractAspectJAdvice implements Advice {
     protected Method adviceMethod;
     protected AspectJExpressionPointcut pointcut;
-    protected Object adviceObject;
+    protected AspectInstanceFactory adviceObjectFactory;
 
     public AbstractAspectJAdvice(Method adviceMethod,
                                  AspectJExpressionPointcut pointcut,
-                                 Object adviceObject) {
+                                 AspectInstanceFactory adviceObjectFactory) {
         this.adviceMethod = adviceMethod;
         this.pointcut = pointcut;
-        this.adviceObject = adviceObject;
+        this.adviceObjectFactory = adviceObjectFactory;
     }
     public void invokeAdviceMethod() throws InvocationTargetException, IllegalAccessException {
-        adviceMethod.invoke(adviceObject);
+        adviceMethod.invoke(adviceObjectFactory.getAspectInstance());
     }
     public Pointcut getPointcut(){
         return this.pointcut;
     }
     public Method getAdviceMethod() {
         return adviceMethod;
-    }}
+    }
+
+    public Object getAdviceInstance() {
+        return adviceObjectFactory.getAspectInstance();
+    }
+
+}
