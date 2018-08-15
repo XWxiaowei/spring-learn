@@ -25,6 +25,10 @@ public class GenericBeanDefinition implements BeanDefinition{
 
     private ConstructorArgument constructorArgument = new ConstructorArgument();
 
+    //表明Bean是不是我们自己合成的。
+    private boolean isSynthetic = false;
+
+
     public GenericBeanDefinition() {
 
     }
@@ -32,6 +36,11 @@ public class GenericBeanDefinition implements BeanDefinition{
 
         this.id = id;
         this.beanClassName = beanClassName;
+    }
+
+    public GenericBeanDefinition(Class<?> clz) {
+        this.beanClass = clz;
+        this.beanClassName = clz.getName();
     }
     public String getBeanClassName() {
         return this.beanClassName;
@@ -82,6 +91,11 @@ public class GenericBeanDefinition implements BeanDefinition{
         return this.beanClass!=null;
     }
 
+    @Override
+    public boolean isSynthetic() {
+        return isSynthetic;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -106,4 +120,7 @@ public class GenericBeanDefinition implements BeanDefinition{
         this.beanClassName = beanClassName;
     }
 
+    public void setSynthetic(boolean synthetic) {
+        isSynthetic = synthetic;
+    }
 }

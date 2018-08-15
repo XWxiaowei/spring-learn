@@ -1,9 +1,11 @@
 package com.jay.spring.bean.factory.xml;
 
 import com.jay.spring.Exception.BeanDefinitionException;
+import com.jay.spring.aop.config.ConfigBeanDefinitionParser;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.PropertyValue;
+import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
@@ -49,6 +51,7 @@ public class XmlBeanDefinitionReader {
 
     public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
 
+    public static final String AOP_NAMESPACE_URI = "http://www.springframework.org/schema/aop";
 
     private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
@@ -79,7 +82,10 @@ public class XmlBeanDefinitionReader {
                         parseDefaultElement(element);//普通的bean
                     } else if (this.isContextNamespace(namespaceUri)) {
                         parseComponentElement(element);//例如<context:component-scan>
+                    } else if (this.isAOPNamespace(namespaceUri)) {
+                        parseAOPElement(ele); //例如:<aop:config>
                     }
+
                 }
             } finally {
                 if (inputStream != null) {
@@ -161,6 +167,10 @@ public class XmlBeanDefinitionReader {
         return (!StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri));
     }
 
+    public boolean isAOPNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || AOP_NAMESPACE_URI.equals(namespaceUri));
+    }
+
     private void parseDefaultElement(Element element) {
         String id = element.attributeValue(ID_ATTRIBUTE);
         String className = element.attributeValue(CLASS_ATTRIBUTE);
@@ -179,5 +189,12 @@ public class XmlBeanDefinitionReader {
         scanner.doScan(basePackages);
 
     }
+
+    private void parseAOPElement(Element ele) {
+        ConfigBeanDefinitionParser parser = new ConfigBeanDefinitionParser();
+        parser.parse(ele, this.registry);
+    }
+
+
 
 }
