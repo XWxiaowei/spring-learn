@@ -3,6 +3,7 @@ package com.jay.spring.test.v5;
 import com.jay.spring.aop.aspectj.AspectJBeforeAdvice;
 import com.jay.spring.aop.aspectj.AspectJExpressionPointcut;
 import com.jay.spring.aop.config.AspectInstanceFactory;
+import com.jay.spring.aop.config.MethodLocatingFactory;
 import com.jay.spring.bean.BeanDefinition;
 import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.PropertyValue;
@@ -39,7 +40,7 @@ public class BeanDefinitionTestV5 extends AbstractV5Test {
 
             PropertyValue pv = bd.getPropertyValues().get(0);
             Assert.assertEquals("expression", pv.getName());
-            Assert.assertEquals("execution(* org.litespring.service.v5.*.placeOrder(..))", pv.getValue());
+            Assert.assertEquals("execution(* com.jay.spring.service.v5.*.placeOrder(..))", pv.getValue());
 
         }
 //        检查AspectJBeforeAdvice
@@ -57,7 +58,7 @@ public class BeanDefinitionTestV5 extends AbstractV5Test {
             {
                 BeanDefinition innerBeanDef = (BeanDefinition) args.get(0).getValue();
                 Assert.assertTrue(innerBeanDef.isSynthetic());
-                Assert.assertTrue(innerBeanDef.getBeanClass().equals(MethodLocatingFactoryTest.class));
+                Assert.assertTrue(innerBeanDef.getBeanClass().equals(MethodLocatingFactory.class));
 
                 List<PropertyValue> pvs = innerBeanDef.getPropertyValues();
                 Assert.assertEquals("targetBeanName", pvs.get(0).getName());

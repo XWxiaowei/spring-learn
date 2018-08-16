@@ -44,12 +44,12 @@ public class CglibAopProxyTest extends AbstractV5Test {
 
 
         beforeAdvice = new AspectJBeforeAdvice(
-                TransactionManager.class.getMethod("start"),
+                getAdviceMethod("start"),
                 pc,
                 aspectInstanceFactory);
 
         afterAdvice = new AspectJAfterReturningAdvice(
-                TransactionManager.class.getMethod("commit"),
+                getAdviceMethod("commit"),
                 pc,
                 aspectInstanceFactory);
 

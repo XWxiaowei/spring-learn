@@ -83,7 +83,7 @@ public class XmlBeanDefinitionReader {
                     } else if (this.isContextNamespace(namespaceUri)) {
                         parseComponentElement(element);//例如<context:component-scan>
                     } else if (this.isAOPNamespace(namespaceUri)) {
-                        parseAOPElement(ele); //例如:<aop:config>
+                        parseAOPElement(element); //例如:<aop:config>
                     }
 
                 }

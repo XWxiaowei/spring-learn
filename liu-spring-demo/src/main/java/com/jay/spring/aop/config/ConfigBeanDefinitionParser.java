@@ -1,11 +1,17 @@
 package com.jay.spring.aop.config;
 
+import com.jay.spring.aop.aspectj.AspectJAfterReturningAdvice;
+import com.jay.spring.aop.aspectj.AspectJAfterThrowingAdvice;
+import com.jay.spring.aop.aspectj.AspectJBeforeAdvice;
+import com.jay.spring.aop.aspectj.AspectJExpressionPointcut;
 import com.jay.spring.bean.BeanDefinition;
+import com.jay.spring.bean.ConstructorArgument;
 import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.support.BeanDefinitionReaderUtils;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.bean.factory.support.GenericBeanDefinition;
+import com.jay.spring.util.StringUtils;
 import org.dom4j.Element;
 
 import java.util.ArrayList;
@@ -56,9 +62,46 @@ public class ConfigBeanDefinitionParser {
         for (int i = 0; i < eleList.size(); i++) {
             Element ele = eleList.get(i);
             if (isAdviceNode(ele)) {
-
+                if (!adviceFoundAlready) {
+                    adviceFoundAlready = true;
+                    if (!StringUtils.hasText(aspectName)) {
+                        return;
+                    }
+                    beanReferences.add(new RuntimeBeanReference(aspectName));
+                }
+                GenericBeanDefinition advisorDefinition = parseAdvice(
+                        aspectName, i, aspectElement, ele, registry, beanDefinitions, beanReferences);
+                beanDefinitions.add(advisorDefinition);
             }
         }
+        List<Element> pointcuts = aspectElement.elements(POINTCUT);
+        for (Element pointcutElement : pointcuts) {
+            parsePointcut(pointcutElement, registry);
+        }
+    }
+
+    private GenericBeanDefinition parsePointcut(Element pointcutElement, BeanDefinitionRegistry registry) {
+        String id = pointcutElement.attributeValue(ID);
+        String expression = pointcutElement.attributeValue(EXPRESSION);
+
+        GenericBeanDefinition pointcutDefinition = null;
+
+        pointcutDefinition = createPointcutDefinition(expression);
+        String pointcutBeanName = id;
+        if (StringUtils.hasText(pointcutBeanName)) {
+            registry.registerBeanDefinition(pointcutBeanName, pointcutDefinition);
+        } else {
+            BeanDefinitionReaderUtils.registerWithGeneratedName(pointcutDefinition, registry);
+        }
+        return pointcutDefinition;
+    }
+
+    private GenericBeanDefinition createPointcutDefinition(String expression) {
+        GenericBeanDefinition beanDefinition = new GenericBeanDefinition(AspectJExpressionPointcut.class);
+        beanDefinition.setScope(BeanDefinition.SCOPE_PROTOTYPE);
+        beanDefinition.setSynthetic(true);
+        beanDefinition.getPropertyValues().add(new PropertyValue(EXPRESSION, expression));
+        return beanDefinition;
     }
 
     private boolean isAdviceNode(Element element) {
@@ -98,7 +141,54 @@ public class ConfigBeanDefinitionParser {
             Element adviceElement, BeanDefinitionRegistry registry, String aspectName, int order,
             GenericBeanDefinition methodDef, GenericBeanDefinition aspectFactoryDef,
             List<BeanDefinition> beanDefinitions, List<RuntimeBeanReference> beanReferences) {
-        // TODO: 2018/8/16
+        GenericBeanDefinition adviceDefinition = new GenericBeanDefinition(getAdviceClass(adviceElement));
+        adviceDefinition.getPropertyValues().add(new PropertyValue(ASPECT_NAME_PROPERTY, aspectName));
+
+        ConstructorArgument cav = adviceDefinition.getConstructorArgument();
+        cav.addArgumentValue(methodDef);
+
+        Object pointcut = parsePointcutProperty(adviceElement);
+        if (pointcut instanceof BeanDefinition) {
+            cav.addArgumentValue(pointcut);
+            beanDefinitions.add((BeanDefinition) pointcut);
+        } else if (pointcut instanceof String) {
+            RuntimeBeanReference pointcutRef = new RuntimeBeanReference((String) pointcut);
+            cav.addArgumentValue(pointcutRef);
+            beanReferences.add(pointcutRef);
+        }
+        cav.addArgumentValue(aspectFactoryDef);
+
+        return adviceDefinition;
+    }
+
+    private Object parsePointcutProperty(Element element) {
+        if ((element.attribute(POINTCUT) == null) && (element.attribute(POINTCUT_REF) == null)) {
+            return null;
+        } else if (element.attribute(POINTCUT) != null) {
+            String expression = element.attributeValue(POINTCUT);
+            GenericBeanDefinition pointcutDefinition = createPointcutDefinition(expression);
+            return pointcutDefinition;
+        } else if (element.attribute(POINTCUT_REF) != null) {
+            String pointcutRef = element.attributeValue(POINTCUT_REF);
+            if (!StringUtils.hasText(pointcutRef)) {
+                return null;
+            }
+            return pointcutRef;
+        }
         return null;
     }
+
+    private Class<?> getAdviceClass(Element adviceElement) {
+        String elementName = adviceElement.getName();
+        if (BEFORE.equals(elementName)) {
+            return AspectJBeforeAdvice.class;
+        } else if (AFTER_RETURNING_ELEMENT.equals(elementName)) {
+            return AspectJAfterReturningAdvice.class;
+        } else if (AFTER_THROWING_ELEMENT.equals(elementName)) {
+            return AspectJAfterThrowingAdvice.class;
+        } else {
+            throw new IllegalArgumentException("Unknown advice kind [" + elementName + "].");
+        }
+    }
+
 }
