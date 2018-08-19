@@ -35,25 +35,27 @@ public class AutowiredAnnotationProcessor implements InstantiationAwareBeanPostP
     public InjectionMetadata buildAutowiringMetadata(Class<?> clazz) {
         LinkedList<InjectionElement> elements = new LinkedList<InjectionElement>();
         Class<?> targetClass = clazz;
+        //TODO 踩过坑
+        do {
+            LinkedList<InjectionElement> currentElements = new LinkedList<InjectionElement>();
+            for (Field field : targetClass.getDeclaredFields()) {
+                Annotation ann = findAutowiredAnnotation(field);
+                if (ann != null) {
+                    if (Modifier.isStatic(field.getModifiers())) {
+                        continue;
+                    }
+                    boolean required = determineRequiredStatus(ann);
+                    currentElements.add(new AutowiredFieldElement(field, required, beanFactory));
 
-        LinkedList<InjectionElement> currentElements = new LinkedList<InjectionElement>();
-        for (Field field : targetClass.getDeclaredFields()) {
-            Annotation ann = findAutowiredAnnotation(field);
-            if (ann != null) {
-                if (Modifier.isStatic(field.getModifiers())) {
-                    continue;
                 }
-                boolean required = determineRequiredStatus(ann);
-                currentElements.add(new AutowiredFieldElement(field, required, beanFactory));
-
             }
+            for (Method method : targetClass.getDeclaredMethods()) {
+                //TODO 处理方法注入
+            }
+            elements.addAll(0, currentElements);
+            targetClass = targetClass.getSuperclass();
         }
-        for (Method method : targetClass.getDeclaredMethods()) {
-            //TODO 处理方法注入
-        }
-        elements.addAll(0, currentElements);
-        targetClass = targetClass.getSuperclass();
-        while (targetClass != null && targetClass != Object.class) ;
+        while (targetClass != null && targetClass != Object.class);
 
         return new InjectionMetadata(clazz, elements);
 

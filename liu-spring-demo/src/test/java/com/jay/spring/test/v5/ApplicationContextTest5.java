@@ -35,6 +35,6 @@ public class ApplicationContextTest5 {
         Assert.assertEquals(3, msgs.size());
         Assert.assertEquals("start tx", msgs.get(0));
         Assert.assertEquals("place order", msgs.get(1));
-        Assert.assertEquals("rollback tx", msgs.get(2));
+        Assert.assertEquals("commit tx", msgs.get(2));
     }
 }
