@@ -1,5 +1,6 @@
 package com.jay.spring.context.support;
 
+import com.jay.spring.aop.aspectj.AspectJAutoProxyCreator;
 import com.jay.spring.bean.factory.NoSuchBeanDefinitionException;
 import com.jay.spring.bean.factory.support.DefaultBeanFactory;
 import com.jay.spring.bean.factory.annotation.AutowiredAnnotationProcessor;
@@ -47,9 +48,17 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     }
 
     protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
-        AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
-        postProcessor.setBeanFactory(beanFactory);
-        beanFactory.addBeanPostProcessor(postProcessor);
+        {
+            AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
+            postProcessor.setBeanFactory(beanFactory);
+            beanFactory.addBeanPostProcessor(postProcessor);
+        }
+        {
+            AspectJAutoProxyCreator postProcessor = new AspectJAutoProxyCreator();
+            postProcessor.setBeanFactory(beanFactory);
+            beanFactory.addBeanPostProcessor(postProcessor);
+        }
+
     }
     public  Class<?> getType(String name) throws NoSuchBeanDefinitionException {
         return this.factory.getType(name);

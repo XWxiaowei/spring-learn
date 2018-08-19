@@ -90,15 +90,7 @@ public class AutowiredAnnotationProcessor implements InstantiationAwareBeanPostP
         this.beanFactory = beanFactory;
     }
 
-    @Override
-    public Object beforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-        return null;
-    }
 
-    @Override
-    public boolean afterInstantiation(Object bean, String beanName) throws BeansException {
-        return false;
-    }
 
     @Override
     public void postProcessPropertyValues(Object bean, String beanName) throws BeansException {
@@ -110,14 +102,23 @@ public class AutowiredAnnotationProcessor implements InstantiationAwareBeanPostP
         }
 
     }
-
     @Override
     public Object beforeInitialization(Object bean, String beanName) throws BeansException {
-        return null;
+        //do nothing
+        return bean;
     }
-
     @Override
     public Object afterInitialization(Object bean, String beanName) throws BeansException {
+        // do nothing
+        return bean;
+    }
+    @Override
+    public Object beforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
         return null;
+    }
+    @Override
+    public boolean afterInstantiation(Object bean, String beanName) throws BeansException {
+        // do nothing
+        return true;
     }
 }
