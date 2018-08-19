@@ -9,6 +9,8 @@ import com.jay.spring.context.ApplicationContext;
 import com.jay.spring.core.io.Resource;
 import com.jay.spring.util.ClassUtils;
 
+import java.util.List;
+
 /**
  * Created by xiang.wei on 2018/6/19
  *
@@ -51,5 +53,9 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     }
     public  Class<?> getType(String name) throws NoSuchBeanDefinitionException {
         return this.factory.getType(name);
+    }
+
+    public List<Object> getBeansByType(Class<?> type){
+       return this.factory.getBeansByType(type);
     }
 }
