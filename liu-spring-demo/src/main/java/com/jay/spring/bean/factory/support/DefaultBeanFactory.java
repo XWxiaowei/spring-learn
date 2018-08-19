@@ -6,6 +6,7 @@ import com.jay.spring.bean.BeanException;
 import com.jay.spring.bean.PropertyValue;
 import com.jay.spring.bean.SimpleTypeCoverter;
 import com.jay.spring.bean.factory.BeanCreationException;
+import com.jay.spring.bean.factory.BeanFactoryAware;
 import com.jay.spring.bean.factory.NoSuchBeanDefinitionException;
 import com.jay.spring.bean.factory.config.BeanPostProcessor;
 import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
@@ -30,8 +31,8 @@ import java.util.Map;
  * @author xiang.wei
  * @create 2018/6/11 14:40
  */
-public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
-        implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory extends AbstractBeanFactory
+         implements BeanDefinitionRegistry {
 
     private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
@@ -107,8 +108,10 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         //设置属性
         populateBean(bd, bean);
 //        populateBeanUseCommonBeanUtils(bd,bean);
+        bean = initializeBean(bd, bean);
         return bean;
     }
+
 
     private Object instantiateBean(BeanDefinition bd) {
         if (bd.hasConstructorArgumentValues()) {
@@ -171,6 +174,34 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
             throw new BeanCreationException("Failed to obtain BeanInfo for class["+bd.getBeanClassName()+"]",e);
         }
 
+    }
+
+    protected Object initializeBean(BeanDefinition bd, Object bean) {
+        invokeAwareMethods(bean);
+//        对Bean做初始化
+//        创建代理
+        if (!bd.isSynthetic()) {
+            return applyBeanPostProcessorsAfterInitialization(bean, bd.getID());
+        }
+
+        return bean;
+    }
+
+    public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) {
+        Object result = existingBean;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            result = beanPostProcessor.afterInitialization(result, beanName);
+            if (result == null) {
+                return result;
+            }
+        }
+        return result;
+    }
+
+    private void invokeAwareMethods(final Object bean) {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
     }
 
     @Override

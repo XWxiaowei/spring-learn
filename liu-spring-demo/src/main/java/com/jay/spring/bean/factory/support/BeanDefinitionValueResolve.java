@@ -1,6 +1,9 @@
 package com.jay.spring.bean.factory.support;
 
+import com.jay.spring.bean.BeanDefinition;
+import com.jay.spring.bean.factory.BeanCreationException;
 import com.jay.spring.bean.factory.BeanFactory;
+import com.jay.spring.bean.factory.FactoryBean;
 import com.jay.spring.bean.factory.config.RuntimeBeanReference;
 import com.jay.spring.bean.factory.config.TypedStringValue;
 
@@ -10,9 +13,9 @@ import com.jay.spring.bean.factory.config.TypedStringValue;
  * @author xiang.wei
  */
 public class BeanDefinitionValueResolve {
-    private final BeanFactory beanFactory;
+    private final AbstractBeanFactory beanFactory;
 
-    public BeanDefinitionValueResolve(BeanFactory beanFactory) {
+    public BeanDefinitionValueResolve(AbstractBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 
@@ -24,8 +27,35 @@ public class BeanDefinitionValueResolve {
             return bean;
         } else if (value instanceof TypedStringValue) {
             return ((TypedStringValue) value).getValue();
+        } else if (value instanceof BeanDefinition) {
+            BeanDefinition bd = (BeanDefinition) value;
+            String innnerBeanName = "(inner bean)" + bd.getBeanClassName() + "#" +
+                    Integer.toHexString(System.identityHashCode(bd));
+            return resolveInnerBean(innnerBeanName, bd);
         } else {
-            throw new RuntimeException("the value " + value + " has not implemented");
+            return value;
+        }
+
+    }
+    private Object resolveInnerBean(String innerBeanName,BeanDefinition innerBd) {
+        try {
+            Object innerBean = this.beanFactory.createBean(innerBd);
+            if (innerBean instanceof FactoryBean) {
+                try {
+                    return ((FactoryBean<?>) innerBean).getObject();
+                } catch (Exception e) {
+                    throw new BeanCreationException(innerBeanName, "FactoryBean threw exception on object creation", e);
+                }
+            }
+            else{
+                return innerBean;
+            }
+        } catch (BeanCreationException ex) {
+            throw new BeanCreationException(
+                    innerBeanName,
+                    "Cannot create inner bean '" + innerBeanName + "' " +
+                            (innerBd != null && innerBd.getBeanClassName() != null ? "of type [" + innerBd.getBeanClassName() + "] " : "")
+                    , ex);
         }
     }
 }
