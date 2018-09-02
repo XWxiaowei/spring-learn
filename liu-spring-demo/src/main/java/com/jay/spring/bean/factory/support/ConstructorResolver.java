@@ -27,6 +27,7 @@ public class ConstructorResolver {
     }
 
     public Object autowireConstructor(final BeanDefinition beanDefinition) {
+        //找到一个可用的Constructor
         Constructor<?> constructorToUse = null;
 
         Object[] argsToUse = null;
@@ -35,20 +36,27 @@ public class ConstructorResolver {
 
 
         try {
+            //装载BeanClass
             beanClass = this.beanFactory.getBeanClassLoader().loadClass(beanDefinition.getBeanClassName());
         } catch (ClassNotFoundException e) {
             throw new BeanCreationException(beanDefinition.getID(), "nstantiation of bean failed, can't resolve class", e);
         }
+//        通过反射的方式拿到Constructor
         Constructor<?>[] candidates = beanClass.getConstructors();
         BeanDefinitionValueResolve valueResolve = new BeanDefinitionValueResolve(this.beanFactory);
         ConstructorArgument cargs = beanDefinition.getConstructorArgument();
+//        类型转换
         SimpleTypeCoverter typeCoverter = new SimpleTypeCoverter();
+        //    对候选的构造器进行循环
+
         for (int i = 0; i < candidates.length; i++) {
 
             Class<?>[] parameterTypes = candidates[i].getParameterTypes();
+//            构造器的参数个数与配置的参数个数不相等，则直接返回
             if (parameterTypes.length != cargs.getArgumentCount()) {
                 continue;
             }
+//            可用对象
             argsToUse = new Object[parameterTypes.length];
             boolean result = this.valuesMatchTypes(parameterTypes,
                     cargs.getArgumentValues(),
@@ -72,6 +80,15 @@ public class ConstructorResolver {
         }
     }
 
+    /***
+     *
+     * @param parameterTypes 参数类型
+     * @param valueHolders  参数对象
+     * @param argsToUse
+     * @param valueResolve
+     * @param typeCoverter
+     * @return
+     */
     private boolean valuesMatchTypes(Class<?>[] parameterTypes,
                                      List<ConstructorArgument.ValueHolder> valueHolders,
                                      Object[] argsToUse,
