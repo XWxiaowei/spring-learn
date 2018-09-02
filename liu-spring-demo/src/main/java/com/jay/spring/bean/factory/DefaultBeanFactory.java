@@ -9,6 +9,7 @@ import com.jay.spring.bean.SimpleTypeCoverter;
 import com.jay.spring.bean.factory.config.ConfigurableBeanFactory;
 import com.jay.spring.bean.factory.support.BeanDefinitionRegistry;
 import com.jay.spring.bean.factory.support.BeanDefinitionValueResolve;
+import com.jay.spring.bean.factory.support.ConstructorResolver;
 import com.jay.spring.bean.factory.support.DefaultSingletonBeanRegistry;
 import com.jay.spring.util.ClassUtils;
 import org.apache.commons.beanutils.BeanUtils;
@@ -63,14 +64,18 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private Object instantiateBean(BeanDefinition bd) {
-        ClassLoader beanClassLoader = this.getBeanClassLoader();
-        String beanClassName = bd.getBeanClassName();
-
-        try {
-            Class<?> clz = beanClassLoader.loadClass(beanClassName);
-            return clz.newInstance();
-        } catch (Exception e) {
-            throw new BeanCreationException("create bean for "+ beanClassName +" failed",e);
+        if(bd.hasConstructorArgumentValues()){
+            ConstructorResolver resolver = new ConstructorResolver(this);
+            return resolver.autowireConstructor(bd);
+        }else{
+            ClassLoader cl = this.getBeanClassLoader();
+            String beanClassName = bd.getBeanClassName();
+            try {
+                Class<?> clz = cl.loadClass(beanClassName);
+                return clz.newInstance();
+            } catch (Exception e) {
+                throw new BeanCreationException("create bean for "+ beanClassName +" failed",e);
+            }
         }
     }
 

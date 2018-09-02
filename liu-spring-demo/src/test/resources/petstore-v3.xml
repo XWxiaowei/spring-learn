@@ -15,7 +15,7 @@
         <constructor-arg value="1"/>
 
     </bean>
-    <bean id="accountDao" class="com.jay.spring.dao.v2.AccountDao"></bean>
-    <bean id="itemDao" class="com.jay.spring.dao.v2.ItemDao"/>
+    <bean id="accountDao" class="com.jay.spring.dao.v3.AccountDao"></bean>
+    <bean id="itemDao" class="com.jay.spring.dao.v3.ItemDao"/>
 
 </beans>

@@ -62,6 +62,9 @@ public class GenericBeanDefinition implements BeanDefinition{
         this.prototype = SCOPE_PROTOTYPE.equals(scope);
 
     }
+    public boolean hasConstructorArgumentValues() {
+        return !this.constructorArgument.isEmpty();
+    }
 
 
 }
