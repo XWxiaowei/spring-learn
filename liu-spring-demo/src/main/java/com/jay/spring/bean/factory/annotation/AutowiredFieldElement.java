@@ -28,9 +28,10 @@ public class AutowiredFieldElement extends InjectionElement {
         Field field = this.getField();
         try {
             DependencyDescriptor desc = new DependencyDescriptor(field, this.required);
-
+            //获取Bean的实例
             Object value = factory.resolveDependency(desc);
             if (value != null) {
+                //将field 置于可访问的
                 ReflectionUtils.makeAccessible(field);
                 field.set(target, value);
             }

@@ -10,6 +10,7 @@ import java.lang.reflect.Member;
  * @author xiang.wei
  */
 public abstract class InjectionElement {
+    // TODO: 2018/9/5  
     protected Member member;
     protected AutowireCapableBeanFactory factory;
 

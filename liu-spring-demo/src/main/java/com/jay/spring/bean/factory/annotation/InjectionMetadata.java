@@ -21,6 +21,10 @@ public class InjectionMetadata {
         return injectionElementList;
     }
 
+    /**
+     * 核心的inject,在Bean生命周期的postProcessPropertyValues方法中被调用
+     * @param target
+     */
     public void inject(Object target) {
         if (injectionElementList == null || injectionElementList.isEmpty()) {
             return;

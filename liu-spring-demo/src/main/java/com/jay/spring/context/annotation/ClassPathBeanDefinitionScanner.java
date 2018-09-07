@@ -40,10 +40,16 @@ public class ClassPathBeanDefinitionScanner {
         this.registry = registry;
     }
 
+    /**
+     *
+     * @param packagesToScan 传入的base-package 字符串
+     * @return
+     */
     public Set<BeanDefinition> doScan(String packagesToScan) {
         String[] basePackages = StringUtils.tokenizeToStringArray(packagesToScan, ",");
 
         Set<BeanDefinition> beanDefinitions = new LinkedHashSet<BeanDefinition>();
+//      对每一个basePackages进行循环
         for (String basePackage : basePackages) {
             Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
             for (BeanDefinition candidate : candidates) {
@@ -54,14 +60,22 @@ public class ClassPathBeanDefinitionScanner {
         return beanDefinitions;
     }
 
+    /**
+     *
+     * @param basePackage
+     * @return
+     */
     public Set<BeanDefinition> findCandidateComponents(String basePackage) {
         Set<BeanDefinition> candidates = new LinkedHashSet<BeanDefinition>();
         try {
+//            先拿到Resource
             Resource[] resources = this.resourceLoader.getResources(basePackage);
             for (Resource resource : resources) {
                 try {
                     MetadataReader metadataReader = new SimpleMetadataReader(resource);
+                    //  通过metadataReader 获取AnnotationMetadata 看看其是否有Component注解
                     if (metadataReader.getAnnotationMetadata().hasAnnotation(Component.class.getName())) {
+//实例化一个ScannedGenericBeanDefinition
                         ScannedGenericBeanDefinition sbd=new ScannedGenericBeanDefinition(metadataReader.getAnnotationMetadata());
                         String beanName = this.beanNameGenerator.generateBeanName(sbd, this.registry);
                         sbd.setId(beanName);
